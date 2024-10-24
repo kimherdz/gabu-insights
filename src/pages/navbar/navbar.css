@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:wght@500&display=swap');
+
+.navbar {
+    background-color: #4715E1 !important;
+    padding: 10px 20px;
+    font-family: "Poppins", sans-serif;
+}
+
+.nav-link {
+    color: #ffffff;
+    padding: 10px;
+    font-size: 16px;
+    transition: color 0.3s ease; 
+    position: relative;
+}
+
+
+/* Estilo para las imágenes */
+.nav-image {
+    width: 25px; 
+    height: auto; 
+    margin-right: 10px; 
+    margin-left: 1.5rem;
+}
+
+.nav-imagelogo{
+    width: 80px;
+}
+
+/* Ocultar texto por defecto */
+.hover-text {
+    display: none;
+    padding: 5px 10px;
+    border: 1px solid #ffffff;
+    background-color: #ffffff;
+    color: #4715E1;
+    border-radius: 10px;
+    white-space: nowrap;
+}
+
+.nav-link-with-image:hover .hover-text {
+    display: inline-block;
+}
+
+/* Dispositivos móviles */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 5px 10px;
+    }
+    .nav-link {
+        padding: 8px;
+        font-size: 14px;
+    }
+}
+
+/* Centrar los elementos horizontalmente */
+.navbar-nav {
+    display: flex;
+    justify-content: left;
+}
+
+/* Alinear elementos dentro del contenedor */
+.nav-item-container {
+    display: flex;
+    align-items: center;
+}
