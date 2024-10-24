@@ -2,16 +2,15 @@ import React, { useState, useEffect } from 'react';
 import * as echarts from 'echarts';
 
 const Parenting = () => {
-  // Estado para los comentarios
+  //comentarios
   const [comments, setComments] = useState([
     { user: 'Coach1', text: 'Buen progreso en habilidades motoras.' },
     { user: 'Coach2', text: 'Debe mejorar la concentración en las tareas.' }
   ]);
 
-  // Estado para el nuevo comentario
   const [newComment, setNewComment] = useState('');
 
-  // Efecto para inicializar la gráfica
+  //gráfica
   useEffect(() => {
     const chartDom = document.getElementById('chart');
     const myChart = echarts.init(chartDom);
@@ -50,11 +49,11 @@ const Parenting = () => {
             show: false
           },
           data: [
-            { value: 1048, name: 'Habilidad A' },
-            { value: 735, name: 'Habilidad B' },
-            { value: 580, name: 'Habilidad C' },
-            { value: 484, name: 'Habilidad D' },
-            { value: 300, name: 'Habilidad E' }
+            { value: 1, name: 'Habilidad A' },
+            { value: 1, name: 'Habilidad B' },
+            { value: 1, name: 'Habilidad C' },
+            { value: 1, name: 'Habilidad D' },
+            { value: 1, name: 'Habilidad E' }
           ]
         }
       ]
@@ -63,17 +62,17 @@ const Parenting = () => {
     option && myChart.setOption(option);
   }, []);
 
-  // Función para agregar un comentario
+  //Agregar un comentario
   const handleAddComment = () => {
     if (newComment.trim()) {
       setComments([...comments, { user: 'Coach', text: newComment }]);
-      setNewComment(''); // Limpiar el campo
+      setNewComment('');
     }
   };
 
   return (
     <div>
-      <h2>Desempeño del Niño</h2>
+      <h1>Parenting</h1>
       <div id="chart" style={{ width: 400, height: 400 }}></div>
       
       <h3>Comentarios de los Coaches</h3>
