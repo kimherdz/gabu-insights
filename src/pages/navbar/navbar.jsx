@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Nav } from 'react-bootstrap';
+import { Navbar, Nav, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom'; 
 import './navbar.css';
 
@@ -57,7 +57,12 @@ const NavigationBar = () => {
               <span className="hover-text">Gamming</span>
             </Nav.Link>
           </div>
+        </Nav>
 
+        {/* Botones adicionales */}
+        <Nav className="ml-auto">
+          <Button variant="outline-light" href="https://playgabu.com/es/old-home" target="_blank">Get Early Access</Button>
+          <Button variant="outline-light" as={Link} to="/login">Login</Button>
         </Nav>
       </Navbar.Collapse>
     </Navbar>

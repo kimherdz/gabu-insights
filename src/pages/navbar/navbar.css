@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:wght@500&display=swap');
 
 .navbar {
-    background-color: #4715E1 !important;
+    background-color: #4715e2 !important;
     padding: 10px 20px;
     font-family: "Poppins", sans-serif;
 }
@@ -33,7 +33,7 @@
     padding: 5px 10px;
     border: 1px solid #ffffff;
     background-color: #ffffff;
-    color: #4715E1;
+    color: #4715e2;
     border-radius: 10px;
     white-space: nowrap;
 }
@@ -64,3 +64,19 @@
     display: flex;
     align-items: center;
 }
+
+.ml-auto .btn {
+    margin-left: 10px; /* Espacio entre botones */
+  }
+  
+  .ml-auto .btn-outline-light {
+    border: none; 
+    color: #ffffff;
+  }
+  
+  .ml-auto .btn-outline-light:hover {
+    background-color: #ffffff; 
+    color: #4715e2;
+    border-radius: 10px;
+    transition: background-color 0.3s ease, color 0.3s ease; 
+  }

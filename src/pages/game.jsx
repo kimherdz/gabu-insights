@@ -3,7 +3,7 @@ import React from 'react';
 const Game = () => {
   return (
     <div>
-      <h1>Aqui iria el juego xd</h1>
+      <h1 style={{ fontWeight: 'bold', textAlign: 'center' }}>Aqui va el juego xd</h1>
       
     </div>
   );
