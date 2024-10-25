@@ -17,7 +17,7 @@ const Login = () => {
       <h2>Iniciar Sesión</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="username">Usuario</label>
+          <label htmlFor="username">Correo Electrónico</label>
           <input
             type="text"
             id="username"

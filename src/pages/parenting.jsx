@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import * as echarts from 'echarts';
+import './style.css'; // Importamos el CSS
 
 const Parenting = () => {
-  //comentarios
+  // Estado para los comentarios
   const [comments, setComments] = useState([
-    { user: 'Coach1', text: 'Buen progreso en habilidades motoras.' },
+    { user: 'Coach1', text: 'Buen progreso en es motoras.' },
     { user: 'Coach2', text: 'Debe mejorar la concentración en las tareas.' }
   ]);
 
-  const [newComment, setNewComment] = useState('');
-
-  //gráfica
+  // Efecto para inicializar la gráfica
   useEffect(() => {
     const chartDom = document.getElementById('chart');
     const myChart = echarts.init(chartDom);
@@ -25,7 +24,7 @@ const Parenting = () => {
       },
       series: [
         {
-          name: 'Desempeño del Niño',
+          name: 'Habilidad Adquirida',
           type: 'pie',
           radius: ['40%', '70%'],
           avoidLabelOverlap: false,
@@ -49,11 +48,12 @@ const Parenting = () => {
             show: false
           },
           data: [
-            { value: 1, name: 'Habilidad A' },
-            { value: 1, name: 'Habilidad B' },
-            { value: 1, name: 'Habilidad C' },
-            { value: 1, name: 'Habilidad D' },
-            { value: 1, name: 'Habilidad E' }
+            { value: 148, name: 'Memoria y Concentración', itemStyle: { color: '#fea55c' } }, 
+            { value: 735, name: 'Resolución de Problemas', itemStyle: { color: '#ffc243' } },
+            { value: 580, name: 'Toma de Decisiones', itemStyle: { color: '#fed888' } },
+            { value: 484, name: 'Trabajo en Equipo', itemStyle: { color: '#4715e2' } },
+            { value: 300, name: 'Creatividad', itemStyle: { color: '#533ed8' } },
+            { value: 300, name: 'Perseverancia', itemStyle: { color: '#5f66cf' } }
           ]
         }
       ]
@@ -62,37 +62,28 @@ const Parenting = () => {
     option && myChart.setOption(option);
   }, []);
 
-  //Agregar un comentario
-  const handleAddComment = () => {
-    if (newComment.trim()) {
-      setComments([...comments, { user: 'Coach', text: newComment }]);
-      setNewComment('');
-    }
-  };
-
   return (
-    <div>
-      <h1>Parenting</h1>
-      <div id="chart" style={{ width: 400, height: 400 }}></div>
-      
-      <h3>Comentarios de los Coaches</h3>
-      <ul>
-        {comments.map((comment, index) => (
-          <li key={index}>
-            <strong>{comment.user}:</strong> {comment.text}
-          </li>
-        ))}
-      </ul>
+    <div className="parenting-container">
+      <h2 className="center-title">Parenting</h2>
 
-      {/* Formulario para agregar comentarios */}
-      <div>
-        <input 
-          type="text" 
-          value={newComment} 
-          onChange={(e) => setNewComment(e.target.value)} 
-          placeholder="Escribe un comentario"
-        />
-        <button onClick={handleAddComment}>Agregar comentario</button>
+      <div className="content-container">
+        {/* Contenedor de la gráfica */}
+        <div className="chart-container">
+          <h3 className="centered-text">Habilidades Adquiridas</h3>
+          <div id="chart" style={{ width: '100%', height: 450 }}></div>
+        </div>
+
+        {/* Comentarios */}
+        <div className="comments-section">
+          <h3 className="centered-text">Coaches Insights</h3>
+          <ul>
+            {comments.map((comment, index) => (
+              <li key={index}>
+                <strong>{comment.user}:</strong> {comment.text}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );

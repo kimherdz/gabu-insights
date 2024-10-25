@@ -42,11 +42,11 @@ const NavigationBar = () => {
             </Nav.Link>
           </div>
 
-          {/* Interacciones Sociales */}
+          {/*Foro Gabu */}
           <div className="nav-item-container">
             <Nav.Link as={Link} to="/social" className="nav-link-with-image">
               <img src={socialImage} alt="Interacciones Sociales" className="nav-image" />
-              <span className="hover-text">Interacciones Sociales</span>
+              <span className="hover-text">Foro Gabu</span>
             </Nav.Link>
           </div>
 

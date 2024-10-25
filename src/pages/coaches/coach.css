@@ -1,0 +1,99 @@
+h2{
+text-align: center;
+margin:20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+    margin: auto;
+    background-color: #fff;
+    padding: 1.5rem;
+    margin-top: 20px;
+    border-radius: 15px;
+    font-size: 20px;
+    
+  }
+
+  select {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 15px; 
+  }
+  
+  textarea {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    padding: 10px;
+    margin-bottom: 15px;
+  }
+  
+  /* Estilo para los sliders */
+  /* Estilo para los sliders */
+input[type="range"] {
+    -webkit-appearance: none; /* Eliminar estilo predeterminado de WebKit */
+    width: 100%; /* Ancho completo */
+    margin: 10px 0; /* Margen superior e inferior */
+}
+  
+  /* Estilo para el track del slider */
+input[type="range"]::-webkit-slider-runnable-track {
+    width: 100%; /* Ancho completo del track */
+    height: 8px; /* Altura del track */
+    background: #ddd; /* Color del track */
+    border-radius: 5px; /* Bordes redondeados */
+}
+  
+input[type="range"]::-moz-range-track {
+    width: 100%; /* Ancho completo del track */
+    height: 8px; /* Altura del track */
+    background: #ddd; /* Color del track */
+    border-radius: 5px; /* Bordes redondeados */
+}
+
+  /* Estilo para el thumb del slider */
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; 
+    background: #4715e2; 
+    border:none;
+    border-radius: 50%; 
+    width: 20px;
+    height: 20px;
+    cursor: pointer; 
+}
+  
+input[type="range"]::-moz-range-thumb {
+    background: #ccc;
+    border: none;
+    border-radius: 50%;
+    width: 20px; 
+    height: 20px;
+    cursor: pointer;
+}
+  
+input[type="range"]:hover::-webkit-slider-thumb {
+    background: #5f66cf;
+}
+  
+input[type="range"]:hover::-moz-range-thumb {
+    background: #5f66cf;
+}
+  
+.but {
+    background-color: #4715e2;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px; 
+    cursor: pointer;
+}
+  
+.but:hover {
+    background-color: #e5ddff;
+    color: #4715e2;
+}
+  

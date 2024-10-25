@@ -7,7 +7,7 @@ import GameTime from './pages/gameTime'; // Importamos la página de Tiempo de J
 import Social from './pages/social'; // Importamos la página de Interacciones Sociales
 import Game from './pages/game'; // Importamos la página de Juego Educativo
 import Login from './pages/login';
-
+import CoachView from './pages/coaches/coachesView';
 function App() {
   return (
     <Router>
@@ -20,6 +20,7 @@ function App() {
           <Route path="/social" element={<Social />} /> {/* Ruta para la página de Interacciones Sociales */}
           <Route path="/game" element={<Game />} />
           <Route path="/login" element={<Login />} /> {/* Ruta para la página de Juego Educativo */}
+          <Route path="/coachesView" element={<CoachView />} /> {/* Ruta para la página de Juego Educativo */}
         </Routes>
       </div>
     </Router>
