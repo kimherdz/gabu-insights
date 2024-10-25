@@ -16,36 +16,43 @@ const Parenting = () => {
     
     const option = {
       tooltip: {
-        trigger: 'item'
+        trigger: 'item',
       },
       legend: {
-        top: '5%',
-        left: 'center'
+        top: '1%',
+        left: 'right',
+        orient: 'vertical',
+        itemGap: 10,
+        textStyle: {
+          fontSize: 20,
+          color: '#000',
+          fontFamily: 'Poppins, sans-serif',
+        },
       },
       series: [
         {
           name: 'Habilidad Adquirida',
           type: 'pie',
-          radius: ['40%', '70%'],
+          radius: ['40%', '75%'],
           avoidLabelOverlap: false,
           itemStyle: {
             borderRadius: 10,
             borderColor: '#fff',
-            borderWidth: 2
+            borderWidth: 2,
           },
           label: {
             show: false,
-            position: 'center'
+            position: 'center',
           },
           emphasis: {
             label: {
               show: true,
               fontSize: 40,
-              fontWeight: 'bold'
-            }
+              fontWeight: 'bold',
+            },
           },
           labelLine: {
-            show: false
+            show: false,
           },
           data: [
             { value: 148, name: 'Memoria y Concentración', itemStyle: { color: '#fea55c' } }, 
@@ -53,26 +60,22 @@ const Parenting = () => {
             { value: 580, name: 'Toma de Decisiones', itemStyle: { color: '#fed888' } },
             { value: 484, name: 'Trabajo en Equipo', itemStyle: { color: '#4715e2' } },
             { value: 300, name: 'Creatividad', itemStyle: { color: '#533ed8' } },
-            { value: 300, name: 'Perseverancia', itemStyle: { color: '#5f66cf' } }
-          ]
-        }
-      ]
+            { value: 300, name: 'Perseverancia', itemStyle: { color: '#5f66cf' } },
+          ],
+        },
+      ],
     };
+    
     
     option && myChart.setOption(option);
   }, []);
 
   return (
-    <div className="parent">
+    <div className="parenting-container">
       <h1 style={{ fontWeight: 'bold'}}>Parenting</h1>
 
-      <div className="div1">
-        {/* Contenedor de la gráfica */}
-        <div className="chart-container">
-          <h3 className="centered-text">Habilidades Adquiridas</h3>
-          <div id="chart" style={{ width: '100%', height: 450 }}></div>
-        </div>
-
+      <div className="content-container">
+        
         {/* Comentarios */}
         <div className="comments-section">
           <h3 className="centered-text">Coaches Insights</h3>
@@ -84,6 +87,13 @@ const Parenting = () => {
             ))}
           </ul>
         </div>
+
+        {/* Contenedor de la gráfica */}
+        <div className="chart-container">
+          <h3 className="centered-text">Habilidades Adquiridas</h3>
+          <div id="chart" style={{ width: '100%', height: 450 }}></div>
+        </div>
+
       </div>
     </div>
   );

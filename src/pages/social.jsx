@@ -30,7 +30,7 @@ const Social = () => {
       <h1 className="forum-title" style={{ fontWeight: 'bold'}}>Foro Gabu</h1>
 
       <div className="forum-container">
-        <h2 className="section-title">Publicaciones</h2>
+        <h4 className="section-title">Publicaciones</h4>
         <ul className="post-list">
           {posts.map((post) => (
             <li key={post.id} className="post-item">
@@ -40,7 +40,7 @@ const Social = () => {
           ))}
         </ul>
 
-        <h2 className="section-title">Agregar Publicación</h2>
+        <h4 className="section-title">Agregar Publicación</h4>
         <form onSubmit={handleAddPost} className="post-form">
           <textarea
             rows="4"
@@ -48,7 +48,7 @@ const Social = () => {
             onChange={(e) => setNewPost(e.target.value)}
             placeholder="Escribe tu mensaje aquí..."
             className="post-input"
-            style={{ backgroundColor: 'transparent' }} // Estilo inline
+            
           />
           <button type="submit" className="post-button">
             Publicar
