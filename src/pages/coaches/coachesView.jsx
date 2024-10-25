@@ -7,22 +7,22 @@ const CoachView = () => {
     positiveAttitudeWhenNotChosen: '',
     positiveAttitudeWhenLosing: '',
     goodFaith: '',
-    coexistenceLevel: 5, // Valor inicial
+    coexistenceLevel: 5,
     comments: '',
-    hoursPlayed: 0, // Valor inicial
+    hoursPlayed: 0,
     gamePlayed: '',
-    sessionDate: '' 
   });
 
-  const [children, setChildren] = useState([]); // Lista de niños
+  const [children, setChildren] = useState([]);
+  const [errorMessage, setErrorMessage] = useState(''); 
+  const [showModal, setShowModal] = useState(false); // Nuevo estado para controlar el modal
 
-  // Obtener la lista de niños de la base de datos
   useEffect(() => {
     const fetchChildren = async () => {
       try {
         const response = await fetch('http://localhost:3001/children');
         const data = await response.json();
-        setChildren(data); // Almacenar los datos de los niños
+        setChildren(data);
       } catch (error) {
         console.error('Error al obtener los niños:', error);
       }
@@ -31,7 +31,6 @@ const CoachView = () => {
     fetchChildren();
   }, []);
 
-  // Actualizar los valores del formulario
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -40,9 +39,18 @@ const CoachView = () => {
     });
   };
 
-  // Enviar los datos del formulario al backend para registrarlos en la base de datos
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validación: Verifica si los campos requeridos están completos
+    if (!formData.childName || !formData.gamePlayed || !formData.comments) {
+      setErrorMessage('Por favor, completa todos los campos obligatorios.');
+      setShowModal(true); // Muestra el modal si la validación falla
+      return;
+    }
+    setErrorMessage(''); // Limpiar mensaje de error si la validación pasa
+    setShowModal(false); // Oculta el modal si la validación pasa
+
     try {
       const response = await fetch('http://localhost:3001/attendances', {
         method: 'POST',
@@ -56,7 +64,6 @@ const CoachView = () => {
           negociar: formData.goodFaith === 'Sí' ? 1 : 0,
           convivencia: formData.coexistenceLevel,
           comentarios: formData.comments,
-          fecha: formData.sessionDate,
         }),
       });
 
@@ -70,9 +77,23 @@ const CoachView = () => {
     }
   };
 
+  const closeModal = () => {
+    setShowModal(false); // Función para cerrar el modal
+  };
+
   return (
     <div>
       <h2>Registro de Comportamiento del Niño</h2>
+      
+      {showModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <span className="close" onClick={closeModal}>&times;</span>
+            <p>{errorMessage}</p>
+          </div>
+        </div>
+      )}
+
       <form onSubmit={handleSubmit}>
         {/* Juego jugado durante la sesión */}
         <label htmlFor="gamePlayed">Juego jugado durante la sesión:</label>
@@ -102,15 +123,7 @@ const CoachView = () => {
           ))}
         </select>
 
-        <label htmlFor="sessionDate">Fecha de la sesión:</label>
-        <input
-          type="date"
-          id="sessionDate"
-          name="sessionDate"
-          value={formData.sessionDate}
-          onChange={handleChange}
-        />
-
+        {/* Otros campos del formulario */}
         <label>Actitud positiva cuando no se eligió el juego:</label>
         <select
           name="positiveAttitudeWhenNotChosen"
