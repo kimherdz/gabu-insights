@@ -30,30 +30,35 @@ const Social = () => {
       <h1 className="forum-title" style={{ fontWeight: 'bold'}}>Foro Gabu</h1>
 
       <div className="forum-container">
-        <h4 className="section-title">Publicaciones</h4>
-        <ul className="post-list">
-          {posts.map((post) => (
-            <li key={post.id} className="post-item">
-              <strong className="post-user">{post.user}:</strong> 
-              <p className="post-content">{post.content}</p>
-            </li>
-          ))}
-        </ul>
-
-        <h4 className="section-title">Agregar Publicación</h4>
-        <form onSubmit={handleAddPost} className="post-form">
-          <textarea
-            rows="4"
-            value={newPost}
-            onChange={(e) => setNewPost(e.target.value)}
-            placeholder="Escribe tu mensaje aquí..."
-            className="post-input"
-            
-          />
-          <button type="submit" className="post-button">
-            Publicar
-          </button>
-        </form>
+        <div className="content-container"> {/* Agrupando publicaciones y formulario */}
+          <div className="post-section"> {/* Sección de publicaciones */}
+            <h4 className="section-title">Publicaciones</h4>
+            <ul className="post-list">
+              {posts.map((post) => (
+                <li key={post.id} className="post-item">
+                  <strong className="post-user">{post.user}:</strong>
+                  <p className="post-content">{post.content}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+          
+          <div className="add-post-container"> {/* Sección de agregar publicaciones */}
+            <h4 className="section-title">Agregar Publicación</h4>
+            <form onSubmit={handleAddPost} className="post-form">
+              <textarea
+                rows="4"
+                value={newPost}
+                onChange={(e) => setNewPost(e.target.value)}
+                placeholder="Escribe tu mensaje aquí..."
+                className="post-input"
+              />
+              <button type="submit" className="post-button">
+                Publicar
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   );

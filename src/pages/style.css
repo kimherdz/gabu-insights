@@ -10,34 +10,38 @@ h1 {
 
 h2, h3 {
     color: #4715e2;
-    font-size: 45px;
+    font-size: 2rem;
+    margin: 1rem;
 }
 h4{
   text-align: center;
   color: #4715e2;
-  font-size: 30px;
+  font-size: 2rem;
 }
 
 .home-container {
   padding: 20px;
-  margin: 20px; 
+  margin: 20px auto; 
+  max-width: 90%;
 }
 
 .right-aligned {
     text-align: right; 
+    margin-bottom: 20px;
 }
 
 .left-aligned {
     text-align: left; 
+    margin-bottom: 20px;
 }
 
 .text-box1 {
-    font-size: 20px;
+    font-size: 1.17rem;
     text-align: right; 
     padding: 20px;
-    margin: 0;
-    margin-left: auto; 
-    width: 80rem;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 60rem;
     height: auto; 
     background-color: #f0ecff;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -46,11 +50,12 @@ h4{
 }
 
 .text-box2 {
-    font-size: 20px;
+    font-size: 1.17rem;
     text-align: left; 
     padding: 20px; 
-    margin: 0; 
-    width: 80rem;
+    margin: 0 auto; 
+    width: 100%;
+    max-width: 60rem;
     height: auto; 
     background-color: #f0ecff;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -58,10 +63,33 @@ h4{
     color: #5b5e76;
 }
 
+@media (max-width: 768px) {
+  h2, h3 {
+    font-size: 1.875rem; /* Disminuye el tamaño de las fuentes en pantallas medianas */
+  }
+  
+  .text-box1, .text-box2 {
+    font-size: 0.875rem; /* Ajusta el tamaño de la fuente en dispositivos móviles */
+    padding: 15px;
+    width: 100%; /* Usa el 100% del ancho disponible */
+    max-width: none;
+  }
+}
 
-/*Parenting*/
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+  h2, h3 {
+    font-size: 1.5rem;
+  }
+}
+
+
+/* Parenting */
 .parenting-container {
   padding: 20px;
+  margin: auto;
 }
 
 .center-title {
@@ -74,6 +102,7 @@ h4{
   justify-content: space-around;
   align-items: flex-start; 
   padding: 20px;
+  flex-wrap: wrap; /* Permite que los elementos se muevan a una nueva línea en pantallas pequeñas */
 }
 
 /* Gráfica */
@@ -81,7 +110,7 @@ h4{
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 50%; 
+  width: 48%; /* Ajusta a 48% para que haya un pequeño espacio entre los contenedores en pantallas medianas */
   margin: 1rem;
 }
 
@@ -92,14 +121,16 @@ h4{
 
 #chart {
   flex: 1;
+  width: 100%; /* Ocupa todo el ancho disponible */
 }
 
-/*Insights*/
+/* Insights */
 .comments-section {
   flex: 1; 
   padding: 20px;
-  font-size: 25px;
-  width: 20rem;
+  font-size: 1.2rem; /* Ajusta el tamaño para adaptarse mejor a pantallas pequeñas */
+  width: 100%; /* Ajuste de ancho en pantallas pequeñas */
+  max-width: 30rem;
 }
 
 .comments-section ul {
@@ -111,38 +142,83 @@ h4{
 .comments-section li {
   display: flex;
   align-items: center;
-  padding: 10px 0;
+  padding: 10px;
   background-color: #ffc243;
-  height: 5rem;
+  height: auto; /* Cambia la altura fija para evitar que el texto se desborde */
   border-radius: 15px;
-  margin: 15px;
-  padding: 5px;
+  margin: 10px;
   text-align: left;
 }
 
-
-/*Tiempo de Juego*/
-#weekly-chart{
-  padding: 20px;
+/* Media Queries */
+@media (max-width: 768px) {
+  .chart-container, .comments-section {
+    width: 100%; /* Acomoda el ancho de cada sección en pantallas medianas */
+  }
+  
+  .content-container {
+    flex-direction: column; /* Cambia la orientación a columna en pantallas medianas */
+    align-items: center;
+  }
 }
 
-#coexistence-chart{
-  padding: 20px;
+@media (max-width: 480px) {
+  .center-title {
+    font-size: 1.5rem; /* Ajusta el tamaño de título para pantallas pequeñas */
+  }
+
+  .comments-section li {
+    font-size: 1rem;
+    padding: 8px; /* Disminuye el padding para pantallas pequeñas */
+  }
 }
 
-/*Foro Gabu*/
-/*Foro*/
+/* Tiempo de Juego */
+#weekly-chart,
+#coexistence-chart {
+  padding: 20px;
+  width: 100%; /* Asegura que los gráficos ocupen todo el ancho disponible */
+  max-width: 800px; /* Define un ancho máximo para evitar que se estiren demasiado en pantallas grandes */
+  margin: auto; /* Centra los gráficos en su contenedor */
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  #weekly-chart,
+  #coexistence-chart {
+    padding: 15px; /* Ajusta el padding para pantallas más pequeñas */
+    max-width: 100%; /* Permite que los gráficos ocupen todo el ancho en pantallas más pequeñas */
+  }
+}
+
+@media (max-width: 480px) {
+  #weekly-chart,
+  #coexistence-chart {
+    padding: 10px; /* Reduce el padding aún más para pantallas pequeñas */
+  }
+}
+
+
+/* Foro Gabu */
 .forum-container {
-  background-color: #fff;
   padding: 20px;
-  border-radius: 10px; /* Bordes redondeados */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para resaltar el contenedor */
 }
 
 .forum-page {
   padding: 20px;
-  max-width: 600px;
+  max-width: 1200px; /* Aumentado para pantallas más grandes */
   margin: 0 auto;
+}
+
+.content-container {
+  display: flex; /* Utiliza flexbox para alinear publicaciones y formulario */
+  justify-content: space-between; /* Espacio entre publicaciones y formulario */
+  align-items: flex-start; /* Alinea elementos al principio */
+}
+
+.post-section {
+  flex: 1; /* Permite que la lista ocupe el espacio disponible */
+  margin-right: 20px; /* Espacio entre la lista y el formulario */
 }
 
 .section-title {
@@ -181,6 +257,10 @@ h4{
 }
 
 /* Formulario para nuevos posts */
+.add-post-container {
+  width: 300px; /* Ancho fijo para la sección de agregar publicaciones */
+}
+
 .post-form {
   display: flex;
   flex-direction: column;

@@ -38,7 +38,7 @@ const Parenting = () => {
           itemStyle: {
             borderRadius: 10,
             borderColor: '#fff',
-            borderWidth: 2,
+            borderWidth: 3,
           },
           label: {
             show: false,
