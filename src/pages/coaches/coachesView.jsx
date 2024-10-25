@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './coach.css';
 
 const CoachView = () => {
@@ -13,6 +13,24 @@ const CoachView = () => {
     gamePlayed: '' // Estado para el juego jugado
   });
 
+  const [children, setChildren] = useState([]); // Lista de niños
+
+  // Obtener la lista de niños de la base de datos
+  useEffect(() => {
+    const fetchChildren = async () => {
+      try {
+        const response = await fetch('http://localhost:3001/children');
+        const data = await response.json();
+        setChildren(data); // Almacenar los datos de los niños
+      } catch (error) {
+        console.error('Error al obtener los niños:', error);
+      }
+    };
+
+    fetchChildren();
+  }, []);
+
+  // Actualizar los valores del formulario
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -21,14 +39,39 @@ const CoachView = () => {
     });
   };
 
+  // Enviar los datos del formulario al backend para registrarlos en la base de datos
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('http://localhost:3001/attendances', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          nino_id: formData.childName,
+          act_eleccion_juego: formData.positiveAttitudeWhenNotChosen === 'Sí' ? 1 : 0,
+          act_perder: formData.positiveAttitudeWhenLosing === 'Sí' ? 1 : 0,
+          negociar: formData.goodFaith === 'Sí' ? 1 : 0,
+          convivencia: formData.coexistenceLevel,
+          comentarios: formData.comments,
+        }),
+      });
+
+      if (response.ok) {
+        console.log('Asistencia registrada con éxito');
+      } else {
+        console.error('Error al registrar la asistencia');
+      }
+    } catch (error) {
+      console.error('Error al enviar el formulario:', error);
+    }
+  };
+
   return (
     <div>
-      {/* Encabezado fuera del formulario */}
       <h2>Registro de Comportamiento del Niño</h2>
-
-      {/* Formulario */}
-      <form>
-
+      <form onSubmit={handleSubmit}>
         {/* Juego jugado durante la sesión */}
         <label htmlFor="gamePlayed">Juego jugado durante la sesión:</label>
         <select
@@ -52,12 +95,12 @@ const CoachView = () => {
           onChange={handleChange}
         >
           <option value="">Seleccionar</option>
-          <option value="Niño 1">Niño 1</option>
-          <option value="Niño 2">Niño 2</option>
-          {/* Agrega más opciones según sea necesario */}
+          {children.map((child) => (
+            <option key={child.id} value={child.id}>{child.nombre}</option>
+          ))}
         </select>
 
-        {/* Actitud positiva cuando no se eligió el juego */}
+        {/* Otros campos del formulario */}
         <label>Actitud positiva cuando no se eligió el juego:</label>
         <select
           name="positiveAttitudeWhenNotChosen"
@@ -69,7 +112,6 @@ const CoachView = () => {
           <option value="No">No</option>
         </select>
 
-        {/* Actitud positiva al perder */}
         <label>Actitud positiva al perder:</label>
         <select
           name="positiveAttitudeWhenLosing"
@@ -81,7 +123,6 @@ const CoachView = () => {
           <option value="No">No</option>
         </select>
 
-        {/* Negocio de buena fe */}
         <label>Negocio de buena fe y cumplió acuerdos:</label>
         <select
           name="goodFaith"
@@ -93,7 +134,6 @@ const CoachView = () => {
           <option value="No">No</option>
         </select>
 
-        {/* Nivel de convivencia con un slider */}
         <label htmlFor="coexistenceLevel">Nivel de convivencia:</label>
         <input
           type="range"
@@ -106,20 +146,18 @@ const CoachView = () => {
         />
         <span>{formData.coexistenceLevel} / 10</span>
 
-        {/* Horas jugadas con un slider */}
         <label htmlFor="hoursPlayed">Horas jugadas:</label>
         <input
           type="range"
           id="hoursPlayed"
           name="hoursPlayed"
           min="0"
-          max="5" // Ajusta según sea necesario
+          max="5"
           value={formData.hoursPlayed}
           onChange={handleChange}
         />
         <span>{formData.hoursPlayed} horas</span>
 
-        {/* Comentarios generales */}
         <label htmlFor="comments">Comentarios generales:</label>
         <textarea
           id="comments"
