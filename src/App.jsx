@@ -9,6 +9,7 @@ import Game from './pages/game';
 import Login from './pages/login';
 import SignUp from './pages/signUp';
 import CoachView from './pages/coaches/coachesView';
+
 function App() {
   return (
     <Router>
