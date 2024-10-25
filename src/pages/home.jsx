@@ -10,7 +10,6 @@ const Home = () => {
       </h1>
       <div className="home-container">
         <div className="right-aligned">
-          <h3>Para nuestros niños</h3>
           <div className="text-box1">
             <p>
               A través de nuestra página web, podrás acceder a reportes
@@ -26,7 +25,7 @@ const Home = () => {
         </div>
 
         <div className="left-aligned">
-          <h3>Por qué lo hacemos</h3>
+          <h4>Por qué lo hacemos</h4>
           <div className="text-box2">
             <p>
               En Gabu, somos padres nosotros mismos y entendemos el equilibrio
