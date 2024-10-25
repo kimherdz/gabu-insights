@@ -10,7 +10,8 @@ const CoachView = () => {
     coexistenceLevel: 5, // Valor inicial
     comments: '',
     hoursPlayed: 0, // Valor inicial
-    gamePlayed: '' // Estado para el juego jugado
+    gamePlayed: '',
+    sessionDate: '' 
   });
 
   const [children, setChildren] = useState([]); // Lista de niños
@@ -55,6 +56,7 @@ const CoachView = () => {
           negociar: formData.goodFaith === 'Sí' ? 1 : 0,
           convivencia: formData.coexistenceLevel,
           comentarios: formData.comments,
+          fecha: formData.sessionDate,
         }),
       });
 
@@ -100,7 +102,15 @@ const CoachView = () => {
           ))}
         </select>
 
-        {/* Otros campos del formulario */}
+        <label htmlFor="sessionDate">Fecha de la sesión:</label>
+        <input
+          type="date"
+          id="sessionDate"
+          name="sessionDate"
+          value={formData.sessionDate}
+          onChange={handleChange}
+        />
+
         <label>Actitud positiva cuando no se eligió el juego:</label>
         <select
           name="positiveAttitudeWhenNotChosen"
