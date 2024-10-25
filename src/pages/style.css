@@ -49,18 +49,18 @@ h2, h3 {
 /*Parenting*/
 .parenting-container {
   padding: 20px;
-  
 }
 
 .center-title {
   text-align: center;
-  margin-bottom: 20px;
+  padding: 20px;
 }
 
 .content-container {
   display: flex;
   justify-content: space-around;
   align-items: flex-start; 
+  padding: 20px;
 }
 
 /* Gráfica */
@@ -69,7 +69,7 @@ h2, h3 {
   flex-direction: column;
   align-items: center;
   width: 50%; 
-  margin: 0 auto;
+  margin: 1rem;
 }
 
 .centered-text {
@@ -85,9 +85,6 @@ h2, h3 {
 .comments-section {
   flex: 1; 
   padding: 20px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 15px;
-  background-color: #fff;
   font-size: 25px;
   width: 20rem;
 }
@@ -99,12 +96,15 @@ h2, h3 {
 }
 
 .comments-section li {
+  display: flex;
+  align-items: center;
   padding: 10px 0;
   background-color: #ffc243;
+  height: 5rem;
   border-radius: 15px;
-  margin: 5px;
+  margin: 15px;
   padding: 5px;
-  text-align: right;
+  text-align: left;
 }
 
 /*Foro*/
@@ -179,4 +179,18 @@ h2, h3 {
 .post-button:hover {
   background-color: #e5ddff;
   color: #4715e2;
+}
+
+/*Tiempo de Juego*/
+
+h1 {
+  margin-top: 20px; 
+}
+
+#weekly-chart{
+  padding: 20px;
+}
+
+#coexistence-chart{
+  padding: 20px;
 }
