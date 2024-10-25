@@ -50,11 +50,11 @@ const NavigationBar = () => {
             </Nav.Link>
           </div>
 
-          {/* Gamming */}
+          {/* Fun Zone */}
           <div className="nav-item-container">
-            <Nav.Link as={Link} to="/game" className="nav-link-with-image">
-              <img src={gameImage} alt="Gamming" className="nav-image" />
-              <span className="hover-text">Gamming</span>
+            <Nav.Link as={Link} to="/funZone" className="nav-link-with-image">
+              <img src={gameImage} alt="FunZone" className="nav-image" />
+              <span className="hover-text">Fun Zone</span>
             </Nav.Link>
           </div>
         </Nav>
