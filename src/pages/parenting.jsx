@@ -3,17 +3,40 @@ import * as echarts from 'echarts';
 import './style.css';
 
 const Parenting = () => {
-  // Estado para los comentarios
-  const [comments, setComments] = useState([
-    { user: 'Coach1', text: 'Buen progreso en es motoras.' },
-    { user: 'Coach2', text: 'Debe mejorar la concentración en las tareas.' }
-  ]);
+  const [comments, setComments] = useState([]);
+  const [skillsData, setSkillsData] = useState({ act_perder: 0, negociar: 0, act_eleccion_juego: 0 });
 
-  // Efecto para inicializar la gráfica
+  // Función para obtener los comentarios de los coaches
+  const fetchComments = async () => {
+    try {
+      const response = await fetch('http://localhost:3001/attendances/comments');
+      const data = await response.json();
+      setComments(data);
+    } catch (error) {
+      console.error('Error al obtener comentarios:', error);
+    }
+  };
+
+  // Función para obtener los datos de la gráfica
+  const fetchSkillsData = async () => {
+    try {
+      const response = await fetch('http://localhost:3001/attendances/skills');
+      const data = await response.json();
+      setSkillsData(data);
+    } catch (error) {
+      console.error('Error al obtener datos de habilidades:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchComments();
+    fetchSkillsData();
+  }, []);
+
   useEffect(() => {
     const chartDom = document.getElementById('chart');
     const myChart = echarts.init(chartDom);
-    
+
     const option = {
       tooltip: {
         trigger: 'item',
@@ -31,7 +54,6 @@ const Parenting = () => {
       },
       series: [
         {
-          name: 'Habilidad Adquirida',
           type: 'pie',
           radius: ['40%', '75%'],
           avoidLabelOverlap: false,
@@ -55,45 +77,37 @@ const Parenting = () => {
             show: false,
           },
           data: [
-            { value: 148, name: 'Memoria y Concentración', itemStyle: { color: '#fea55c' } }, 
-            { value: 735, name: 'Resolución de Problemas', itemStyle: { color: '#ffc243' } },
-            { value: 580, name: 'Toma de Decisiones', itemStyle: { color: '#fed888' } },
-            { value: 484, name: 'Trabajo en Equipo', itemStyle: { color: '#4715e2' } },
-            { value: 300, name: 'Creatividad', itemStyle: { color: '#533ed8' } },
-            { value: 300, name: 'Perseverancia', itemStyle: { color: '#5f66cf' } },
+            { value: skillsData.act_eleccion_juego, name: 'Actitud positiva cuando no se eligió su juego', itemStyle: { color: '#fea55c' } }, 
+            { value: skillsData.act_perder, name: 'Actitud positiva al perder', itemStyle: { color: '#533ed8' } },
+            { value: skillsData.negociar, name: 'Negoció de buena fe y cumplió acuerdos', itemStyle: { color: '#5f66cf' } },
           ],
         },
       ],
     };
-    
-    
-    option && myChart.setOption(option);
-  }, []);
+
+    myChart.setOption(option);
+  }, [skillsData]);
 
   return (
     <div className="parenting-container">
-      <h1 style={{ fontWeight: 'bold'}}>Parenting</h1>
+      <h1 style={{ fontWeight: 'bold' }}>Parenting</h1>
 
       <div className="content-container">
-        
-        {/* Comentarios */}
         <div className="comments-section">
           <h3 className="centered-text">Coaches Insights</h3>
           <ul>
             {comments.map((comment, index) => (
               <li key={index}>
-                <strong>{comment.user}:</strong> {comment.text}
+                <strong>{comment.coach_name}:</strong> {comment.comentarios}
               </li>
             ))}
           </ul>
         </div>
 
-        {/* Contenedor de la gráfica */}
         <div className="chart-container">
           <h3 className="centered-text">Habilidades Adquiridas</h3>
           <div id="chart" style={{ width: '100%', height: 450 }}></div>
         </div>
-
       </div>
     </div>
   );
