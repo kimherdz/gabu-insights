@@ -9,7 +9,8 @@ const CoachView = () => {
     goodFaith: '',
     coexistenceLevel: 5, // Valor inicial
     comments: '',
-    hoursPlayed: 0 // Valor inicial
+    hoursPlayed: 0, // Valor inicial
+    gamePlayed: '' // Estado para el juego jugado
   });
 
   const handleChange = (e) => {
@@ -27,6 +28,21 @@ const CoachView = () => {
 
       {/* Formulario */}
       <form>
+
+        {/* Juego jugado durante la sesión */}
+        <label htmlFor="gamePlayed">Juego jugado durante la sesión:</label>
+        <select
+          id="gamePlayed"
+          name="gamePlayed"
+          value={formData.gamePlayed}
+          onChange={handleChange}
+        >
+          <option value="">Seleccionar</option>
+          <option value="Minecraft">Minecraft</option>
+          <option value="Roblox">Roblox</option>
+          <option value="StumbleGuys">Stumble Guys</option>
+        </select>
+
         {/* Lista desplegable de los niños */}
         <label htmlFor="childName">Niño:</label>
         <select
