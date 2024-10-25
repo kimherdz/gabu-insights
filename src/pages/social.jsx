@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './style.css';
 
 const Social = () => {
   // Estado para las publicaciones del foro
@@ -25,29 +26,31 @@ const Social = () => {
   };
 
   return (
-    <div>
-      <h1 style={{ fontWeight: 'bold', textAlign: 'center' }}>Foro Gabu</h1>
+    <div className="forum-page">
+      <h1 className="forum-title" style={{ fontWeight: 'bold'}}>Foro Gabu</h1>
 
-      <div className="forum-container" style={{ padding: '20px', maxWidth: '600px', margin: '0 auto' }}>
-        <h2>Publicaciones</h2>
-        <ul style={{ listStyleType: 'none', padding: 0 }}>
+      <div className="forum-container">
+        <h2 className="section-title">Publicaciones</h2>
+        <ul className="post-list">
           {posts.map((post) => (
-            <li key={post.id} style={{ marginBottom: '15px', border: '1px solid #ccc', padding: '10px', borderRadius: '5px' }}>
-              <strong>{post.user}:</strong> {post.content}
+            <li key={post.id} className="post-item">
+              <strong className="post-user">{post.user}:</strong> 
+              <p className="post-content">{post.content}</p>
             </li>
           ))}
         </ul>
 
-        <h2>Agregar Publicación</h2>
-        <form onSubmit={handleAddPost} style={{ display: 'flex', flexDirection: 'column' }}>
+        <h2 className="section-title">Agregar Publicación</h2>
+        <form onSubmit={handleAddPost} className="post-form">
           <textarea
             rows="4"
             value={newPost}
             onChange={(e) => setNewPost(e.target.value)}
             placeholder="Escribe tu mensaje aquí..."
-            style={{ padding: '10px', borderRadius: '5px', border: '1px solid #ccc', marginBottom: '10px' }}
+            className="post-input"
+            style={{ backgroundColor: 'transparent' }} // Estilo inline
           />
-          <button type="submit" style={{ padding: '10px', borderRadius: '5px', backgroundColor: '#4715e2', color: 'white', border: 'none', cursor: 'pointer' }}>
+          <button type="submit" className="post-button">
             Publicar
           </button>
         </form>

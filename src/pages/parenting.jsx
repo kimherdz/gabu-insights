@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import * as echarts from 'echarts';
-import './style.css'; // Importamos el CSS
+import './style.css';
 
 const Parenting = () => {
   // Estado para los comentarios
@@ -63,10 +63,10 @@ const Parenting = () => {
   }, []);
 
   return (
-    <div className="parenting-container">
-      <h2 className="center-title">Parenting</h2>
+    <div className="parent">
+      <h1 style={{ fontWeight: 'bold'}}>Parenting</h1>
 
-      <div className="content-container">
+      <div className="div1">
         {/* Contenedor de la gráfica */}
         <div className="chart-container">
           <h3 className="centered-text">Habilidades Adquiridas</h3>

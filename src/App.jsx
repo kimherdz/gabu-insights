@@ -1,26 +1,28 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // react-router-dom v6
-import NavigationBar from './pages/navbar/navbar'; // Importamos la barra de navegación
-import Home from './pages/home'; // Importamos la página de Home
-import Parenting from './pages/parenting'; // Importamos la página de Parenting
-import GameTime from './pages/gameTime'; // Importamos la página de Tiempo de Juego
-import Social from './pages/social'; // Importamos la página de Interacciones Sociales
-import Game from './pages/game'; // Importamos la página de Juego Educativo
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; 
+import NavigationBar from './pages/navbar/navbar'; 
+import Home from './pages/home'; 
+import Parenting from './pages/parenting'; 
+import GameTime from './pages/gameTime';
+import Social from './pages/social'; 
+import Game from './pages/game'; 
 import Login from './pages/login';
+import SignUp from './pages/signUp';
 import CoachView from './pages/coaches/coachesView';
 function App() {
   return (
     <Router>
       <div className="App">
-        <NavigationBar /> {/* La barra de navegación siempre visible */}
+        <NavigationBar /> 
         <Routes>
-          <Route path="/" element={<Home />} /> {/* Ruta para la página principal */}
-          <Route path="/parenting" element={<Parenting />} /> {/* Ruta para la página de Parenting */}
-          <Route path="/gameTime" element={<GameTime />} /> {/* Ruta para la página de Tiempo de Juego */}
-          <Route path="/social" element={<Social />} /> {/* Ruta para la página de Interacciones Sociales */}
+          <Route path="/" element={<Home />} /> 
+          <Route path="/parenting" element={<Parenting />} /> 
+          <Route path="/gameTime" element={<GameTime />} /> 
+          <Route path="/social" element={<Social />} /> 
           <Route path="/game" element={<Game />} />
-          <Route path="/login" element={<Login />} /> {/* Ruta para la página de Juego Educativo */}
-          <Route path="/coachesView" element={<CoachView />} /> {/* Ruta para la página de Juego Educativo */}
+          <Route path="/login" element={<Login />} /> 
+          <Route path="/coachesView" element={<CoachView />} /> 
+          <Route path="/SignUp" element={<SignUp />} />
         </Routes>
       </div>
     </Router>
