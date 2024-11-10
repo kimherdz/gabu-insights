@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const pool = require('./db'); // Asegúrate de que la ruta a tu archivo db.js sea correcta
+const bcrypt = require('bcrypt');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -114,6 +115,52 @@ app.get('/game/coexistence', async (req, res) => {
   } catch (err) {
     console.error('Error al obtener el nivel de convivencia:', err);
     res.status(500).json({ error: 'Error al obtener el nivel de convivencia' });
+  }
+});
+
+// Ruta para login
+app.post('/login', async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    // Verifica si el usuario existe en la tabla de padres
+    const parentQuery = 'SELECT * FROM parents WHERE email = $1';
+    const parentResult = await pool.query(parentQuery, [username]);
+
+    if (parentResult.rows.length > 0) {
+      // Usuario encontrado en la tabla de padres
+      const parent = parentResult.rows[0];
+      const passwordMatch = await bcrypt.compare(password, parent.password); // Compara la contraseña
+
+      if (passwordMatch) {
+        return res.status(200).json({ role: 'parent' }); // Redirigir a la vista de padres
+      } else {
+        return res.status(401).json({ message: 'Contraseña incorrecta' }); // Contraseña incorrecta
+      }
+    }
+
+    // Verifica si el usuario existe en la tabla de entrenadores
+    const coachQuery = 'SELECT * FROM coaches WHERE email = $1';
+    const coachResult = await pool.query(coachQuery, [username]);
+
+    if (coachResult.rows.length > 0) {
+      // Usuario encontrado en la tabla de entrenadores
+      const coach = coachResult.rows[0];
+      const passwordMatch = await bcrypt.compare(password, coach.password); // Compara la contraseña
+
+      if (passwordMatch) {
+        return res.status(200).json({ role: 'coach' }); // Redirigir a la vista de entrenadores
+      } else {
+        return res.status(401).json({ message: 'Contraseña incorrecta' }); // Contraseña incorrecta
+      }
+    }
+
+    // Si el usuario no se encuentra en ninguna tabla
+    return res.status(404).json({ message: 'Usuario no encontrado' });
+
+  } catch (error) {
+    console.error('Error en el inicio de sesión:', error);
+    res.status(500).json({ message: 'Error interno del servidor' });
   }
 });
 

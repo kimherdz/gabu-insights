@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Cambiado a useNavigate
 import './accounts.css';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate(); // Hook de navigate para la redirección
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('Username:', username, 'Password:', password);
 
     try {
       const response = await fetch('http://localhost:3001/login', {
@@ -18,22 +21,22 @@ const Login = () => {
         body: JSON.stringify({ username, password }),
       });
 
-      if (!response.ok) {
-        throw new Error('Error en la autenticación');
-      }
-
       const data = await response.json();
-      // Almacenar el rol del usuario
-      localStorage.setItem('userRole', data.role); // Guarda el rol del usuario
 
-      // Redirigir según el rol
-      if (data.role === 'parent') {
-        // Redirige al control parental
-      } else if (data.role === 'coach') {
-        // Redirige a la página de asistencia
+      if (response.ok) {
+        // Maneja la redirección según el rol
+        if (data.role === 'parent') {
+          navigate('/dashboard'); // Redirige a la vista de padres
+        } else if (data.role === 'coach') {
+          navigate('/coachesView'); // Redirige a la vista de entrenadores
+        }
+      } else {
+        // Muestra un mensaje de error
+        alert(data.message);
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error al iniciar sesión:', error);
+      alert('Error al iniciar sesión. Por favor, inténtalo de nuevo.');
     }
   };
 
