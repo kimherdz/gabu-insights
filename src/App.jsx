@@ -5,7 +5,7 @@ import Home from './pages/home';
 import Parenting from './pages/parenting'; 
 import GameTime from './pages/gameTime';
 import Social from './pages/social'; 
-import Game from './pages/game'; 
+import FunZone from './pages/funZone'; 
 import Login from './pages/login';
 import SignUp from './pages/signUp';
 import CoachView from './pages/coaches/coachesView';
@@ -20,7 +20,7 @@ function App() {
           <Route path="/parenting" element={<Parenting />} /> 
           <Route path="/gameTime" element={<GameTime />} /> 
           <Route path="/social" element={<Social />} /> 
-          <Route path="/game" element={<Game />} />
+          <Route path="/funZone" element={<FunZone />} />
           <Route path="/login" element={<Login />} /> 
           <Route path="/coachesView" element={<CoachView />} /> 
           <Route path="/SignUp" element={<SignUp />} />

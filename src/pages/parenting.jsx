@@ -11,6 +11,7 @@ const Parenting = () => {
     try {
       const response = await fetch('http://localhost:3001/attendances/comments');
       const data = await response.json();
+      console.log('Comentarios recibidos:', data);
       setComments(data);
     } catch (error) {
       console.error('Error al obtener comentarios:', error);
@@ -42,10 +43,8 @@ const Parenting = () => {
         trigger: 'item',
       },
       legend: {
+        left: 'center',
         top: '1%',
-        left: 'right',
-        orient: 'vertical',
-        itemGap: 10,
         textStyle: {
           fontSize: 20,
           color: '#000',
@@ -55,7 +54,7 @@ const Parenting = () => {
       series: [
         {
           type: 'pie',
-          radius: ['40%', '75%'],
+          radius: ['40%', '70%'],
           avoidLabelOverlap: false,
           itemStyle: {
             borderRadius: 10,
@@ -67,11 +66,11 @@ const Parenting = () => {
             position: 'center',
           },
           emphasis: {
-            label: {
-              show: true,
-              fontSize: 40,
-              fontWeight: 'bold',
-            },
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
           },
           labelLine: {
             show: false,
