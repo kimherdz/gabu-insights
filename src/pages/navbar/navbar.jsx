@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navbar, Nav, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom'; 
+import { Link, useNavigate } from 'react-router-dom'; 
 import './navbar.css';
 
 import homeImage from '../../img/home.png';
@@ -11,6 +11,13 @@ import gameImage from '../../img/game.png';
 import logoImage from '../../img/logo.png';
 
 const NavigationBar = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
+  };
+
   return (
     <Navbar bg="dark" variant="dark" expand="lg"> 
       <img src={logoImage} alt="Logo" className="nav-imagelogo" />
@@ -63,6 +70,7 @@ const NavigationBar = () => {
         <Nav className="ml-auto">
           <Button variant="outline-light" href="https://playgabu.com/es/old-home" target="_blank">Get Early Access</Button>
           <Button variant="outline-light" as={Link} to="/login">Login</Button>
+          <Button variant="outline-light" onClick={handleLogout}>Log Out</Button>
           <Button variant="outline-light" as={Link} to="/signup">Sign Up</Button>
         </Nav>
       </Navbar.Collapse>

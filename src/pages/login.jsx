@@ -8,30 +8,39 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate(); // Hook de navigate para la redirección
 
+  const fetchProtectedData = async () => {
+    const token = localStorage.getItem('token');
+    
+    const response = await fetch('http://localhost:3001/protected-data', {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    
+    const data = await response.json();
+    console.log(data);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Username:', username, 'Password:', password);
-
+  
     try {
       const response = await fetch('http://localhost:3001/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
       });
-
+  
       const data = await response.json();
-
+  
       if (response.ok) {
-        // Maneja la redirección según el rol
+        localStorage.setItem('token', data.token); // Guardar el token en localStorage
         if (data.role === 'parent') {
-          navigate('/dashboard'); // Redirige a la vista de padres
+          navigate('/parenting'); // Vista de padres
         } else if (data.role === 'coach') {
-          navigate('/coachesView'); // Redirige a la vista de entrenadores
+          navigate('/coachesView'); // Vista de entrenadores
         }
       } else {
-        // Muestra un mensaje de error
         alert(data.message);
       }
     } catch (error) {
@@ -39,6 +48,7 @@ const Login = () => {
       alert('Error al iniciar sesión. Por favor, inténtalo de nuevo.');
     }
   };
+  
 
   return (
     <div className="login-container">
