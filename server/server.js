@@ -56,7 +56,7 @@ app.post('/attendances', async (req, res) => {
   try {
     const result = await pool.query(
       'INSERT INTO attendances (fecha, act_eleccion_juego, act_perder, negociar, convivencia, comentarios, nino_id, coach_id, horas_juego) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
-      [fecha, act_eleccion_juego, act_perder, negociar, convivencia, comentarios, nino_id, coach_id, horas_juego] // Asegúrate de incluir horas_juego aquí
+      [fecha, act_eleccion_juego, act_perder, negociar, convivencia, comentarios, nino_id, coach_id, horas_juego]
     );
     res.status(201).json(result.rows[0]); // Devolver el registro creado
   } catch (err) {
@@ -68,7 +68,7 @@ app.post('/attendances', async (req, res) => {
 
 // Ruta para obtener los comentarios de las asistencias de los hijos del padre logueado
 app.get('/attendances/comments', authenticateToken, async (req, res) => {
-  const parentId = req.user.id; // Este id lo tomaremos del token JWT del padre logueado
+  const parentId = req.user.id;
   try {
     const query = `
       SELECT c.nombre AS coach_name, a.comentarios 
@@ -87,7 +87,7 @@ app.get('/attendances/comments', authenticateToken, async (req, res) => {
 
 // Ruta para obtener las habilidades adquiridas del hijo del padre logueado
 app.get('/attendances/skills', authenticateToken, async (req, res) => {
-  const parentId = req.user.id; // Id del padre logueado obtenido del token
+  const parentId = req.user.id;
   try {
     const query = `
       SELECT SUM(act_perder) AS act_perder, 
@@ -106,15 +106,18 @@ app.get('/attendances/skills', authenticateToken, async (req, res) => {
 });
 
 // Ruta para obtener las horas de juego por día de la semana
-app.get('/game/hours', async (req, res) => {
+app.get('/game/hours', authenticateToken, async (req, res) => {
+  const parentId = req.user.id;
+
   try {
     const query = `
       SELECT fecha, horas_juego 
-      FROM attendances 
-      WHERE fecha >= NOW() - INTERVAL '7 days'
+      FROM attendances a
+      JOIN children ch ON a.nino_id = ch.id
+      WHERE ch.padre_id = $1 AND fecha >= NOW() - INTERVAL '7 days'
       ORDER BY fecha;
     `;
-    const { rows } = await pool.query(query);
+    const { rows } = await pool.query(query, [parentId]);
     res.json(rows);
   } catch (err) {
     console.error('Error al obtener las horas de juego:', err);
@@ -123,15 +126,18 @@ app.get('/game/hours', async (req, res) => {
 });
 
 // Ruta para obtener el nivel de convivencia por día de la semana
-app.get('/game/coexistence', async (req, res) => {
+app.get('/game/coexistence', authenticateToken, async (req, res) => {
+  const parentId = req.user.id;
+
   try {
     const query = `
       SELECT fecha, convivencia 
-      FROM attendances 
-      WHERE fecha >= NOW() - INTERVAL '7 days'
+      FROM attendances a
+      JOIN children ch ON a.nino_id = ch.id
+      WHERE ch.padre_id = $1 AND fecha >= NOW() - INTERVAL '7 days'
       ORDER BY fecha;
     `;
-    const { rows } = await pool.query(query);
+    const { rows } = await pool.query(query, [parentId]);
     res.json(rows);
   } catch (err) {
     console.error('Error al obtener el nivel de convivencia:', err);
@@ -144,7 +150,7 @@ app.post('/login', async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    // Verificar si el usuario es un padre
+    // Verificar si es padre
     const parentQuery = 'SELECT * FROM parents WHERE email = $1';
     const parentResult = await pool.query(parentQuery, [username]);
 
@@ -160,7 +166,7 @@ app.post('/login', async (req, res) => {
       }
     }
 
-    // Verificar si el usuario es un coach
+    // Verificar si es un coach
     const coachQuery = 'SELECT * FROM coaches WHERE email = $1';
     const coachResult = await pool.query(coachQuery, [username]);
 

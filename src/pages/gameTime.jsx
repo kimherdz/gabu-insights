@@ -9,8 +9,13 @@ const GameTime = () => {
   // Función para obtener horas de juego
   const fetchHoursData = async () => {
     try {
-      const response = await fetch('http://localhost:3001/game/hours');
+      const response = await fetch('http://localhost:3001/game/hours', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`, // Agregar el token en los headers
+        },
+      });
       const data = await response.json();
+      console.log("Datos de horas de juego:", data); // Verifica si los datos están llegando
       const formattedData = data.map((item) => ({
         date: new Date(item.fecha).toLocaleDateString('en-US', { weekday: 'short' }),
         value: item.horas_juego,
@@ -24,8 +29,13 @@ const GameTime = () => {
   // Función para obtener datos de convivencia
   const fetchCoexistenceData = async () => {
     try {
-      const response = await fetch('http://localhost:3001/game/coexistence');
+      const response = await fetch('http://localhost:3001/game/coexistence', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`, // Agregar el token en los headers
+        },
+      });
       const data = await response.json();
+      console.log("Datos de convivencia:", data); // Verifica si los datos están llegando
       const formattedData = data.map((item) => ({
         date: new Date(item.fecha).toLocaleDateString('en-US', { weekday: 'short' }),
         value: item.convivencia,
@@ -44,6 +54,11 @@ const GameTime = () => {
   useEffect(() => {
     if (hoursData.length > 0) {
       const weeklyChartDom = document.getElementById('weekly-chart');
+      if (!weeklyChartDom) {
+        console.error('Elemento weekly-chart no encontrado en el DOM');
+        return;
+      }
+
       const weeklyChart = echarts.init(weeklyChartDom);
 
       const weeklyOption = {
@@ -92,12 +107,22 @@ const GameTime = () => {
       };
 
       weeklyChart.setOption(weeklyOption);
+
+      // Limpia la instancia cuando el componente se desmonte o los datos cambien
+      return () => {
+        weeklyChart.dispose();
+      };
     }
   }, [hoursData]);
 
   useEffect(() => {
     if (coexistenceData.length > 0) {
       const coexistenceChartDom = document.getElementById('coexistence-chart');
+      if (!coexistenceChartDom) {
+        console.error('Elemento coexistence-chart no encontrado en el DOM');
+        return;
+      }
+
       const coexistenceChart = echarts.init(coexistenceChartDom);
 
       const coexistenceOption = {
@@ -146,6 +171,11 @@ const GameTime = () => {
       };
 
       coexistenceChart.setOption(coexistenceOption);
+
+      // Limpia la instancia cuando el componente se desmonte o los datos cambien
+      return () => {
+        coexistenceChart.dispose();
+      };
     }
   }, [coexistenceData]);
 
