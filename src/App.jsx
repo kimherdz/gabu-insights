@@ -9,6 +9,7 @@ import FunZone from './pages/funZone';
 import Login from './pages/login';
 import SignUp from './pages/signUp';
 import CoachView from './pages/coaches/coachesView';
+import Simon from './pages/games/simon';
 
 function App() {
   return (
@@ -24,6 +25,8 @@ function App() {
           <Route path="/login" element={<Login />} /> 
           <Route path="/coachesView" element={<CoachView />} /> 
           <Route path="/SignUp" element={<SignUp />} />
+
+          <Route path="/games/simon" element={<Simon />} />
         </Routes>
       </div>
     </Router>

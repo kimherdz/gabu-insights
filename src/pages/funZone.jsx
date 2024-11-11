@@ -1,23 +1,43 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import './fun.css';
 
-const Game = () => {
-  const items = ['Simon Dice', 'Golpea al Topo', 'Tic Tac Toe'];
+import simonImage from '../img/simon.png';
+import moleImage from '../img/mole.png';
+import tictactoeImage from '../img/tictactoe.png';
+
+const FunZone = () => {
+  const navigate = useNavigate();
+
+  const redirectToGame = (path) => {
+    navigate(path);
+  };
 
   return (
-    <div>
-      <h1 style={{ fontWeight: 'bold', textAlign: 'center' }}>Fun Zone</h1>
-
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center',height: '100vh' }}>
-      <h3>Game Ideas</h3>
-      <ul>
-        {items.map((item, index) => (
-          <li key={index}>{item}</li>
-        ))}
-      </ul>
-    </div>
-      
+    <div className='container'>
+      <img
+        src={simonImage} 
+        alt="Simón Dice"
+        onClick={() => redirectToGame('/games/simon')}
+        className='responsive-img'
+        
+      />
+      <img
+        src={moleImage} 
+        alt="Golpea al Topo"
+        onClick={() => redirectToGame('/golpea-al-topo')}
+        className='responsive-img'
+        
+      />
+      <img
+        src={tictactoeImage} 
+        alt="Tic Tac Toe"
+        onClick={() => redirectToGame('/tic-tac-toe')}
+        className='responsive-img'
+        
+      />
     </div>
   );
 };
 
-export default Game;
+export default FunZone;

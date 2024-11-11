@@ -1,0 +1,84 @@
+/* Estilos generales para el contenedor y las imágenes */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 3rem; 
+    padding: 20px;
+  }
+  
+  .responsive-img {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    cursor: pointer;
+  }
+  
+  .responsive-img:hover {
+    transform: scale(1.07); /* Aumenta el tamaño en hover */
+  }
+  
+  @media (max-width: 600px) {
+    .responsive-img {
+      width: 100px;
+    }
+  }
+
+  /*Simon Says*/
+  
+  h5{
+    margin-bottom: 20px;
+  }
+  .game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+  }
+  
+  #game-board {
+    display: grid;
+    grid-template-columns: repeat(2, 150px);
+    gap: 10px;
+    
+  }
+  
+  .color-button {
+    width: 150px;
+    height: 150px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  
+  #green { background-color: green; }
+  #red { background-color: red; }
+  #yellow { background-color: #ffc243; }
+  #blue { background-color: blue; }
+  
+  #start-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 10px;
+    background-color: #4715e2;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border: none;
+    color: white;
+    transition: all 0.3s ease;
+  }
+
+  #start-button:hover {
+    background-color: #ffffff; 
+    color: #4715e2;
+    border-radius: 10px;
+  }
+  
+  .active {
+    opacity: 0.5;
+  }
+  
+  
