@@ -25,7 +25,7 @@ const FunZone = () => {
       <img
         src={moleImage} 
         alt="Golpea al Topo"
-        onClick={() => redirectToGame('/golpea-al-topo')}
+        onClick={() => redirectToGame('/games/mole')}
         className='responsive-img'
         
       />

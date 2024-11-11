@@ -59,6 +59,7 @@
   #blue { background-color: blue; }
   
   #start-button {
+    font-family: Poppins, sans-serif;
     margin-top: 20px;
     padding: 10px 20px;
     font-size: 20px;
@@ -79,6 +80,66 @@
   
   .active {
     opacity: 0.5;
+  }
+  
+  
+  /*Whac A Mole*/
+  .game-container {
+    text-align: center;
+    font-family: Arial, sans-serif;
+  }
+  
+  h1 {
+    color: #333;
+  }
+  
+  h2 {
+    font-size: 24px;
+    margin: 20px 0;
+  }
+  
+  .game-board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .hole {
+    width: 100px;
+    height: 100px;
+    background-color: #5b5e7675;
+    border-radius: 10px;
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .hole.active {
+    background-color: #4815e294;
+  }
+  
+  .mole {
+    width: 50px;
+    height: 50px;
+    background-color: #ffc243;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: pop-up 0.5s ease-in-out;
+  }
+  
+  @keyframes pop-up {
+    0% {
+      transform: translateX(-50%) translateY(10px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(-50%) translateY(-20px);
+      opacity: 1;
+    }
   }
   
   

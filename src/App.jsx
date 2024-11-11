@@ -10,6 +10,7 @@ import Login from './pages/login';
 import SignUp from './pages/signUp';
 import CoachView from './pages/coaches/coachesView';
 import Simon from './pages/games/simon';
+import Mole from './pages/games/mole';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="/SignUp" element={<SignUp />} />
 
           <Route path="/games/simon" element={<Simon />} />
+          <Route path="/games/mole" element={<Mole />} />
         </Routes>
       </div>
     </Router>
