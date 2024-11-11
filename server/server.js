@@ -50,18 +50,23 @@ app.get('/coaches', async (req, res) => {
 });
 
 // Ruta para registrar asistencia
-app.post('/attendances', async (req, res) => {
-  const { fecha, act_eleccion_juego, act_perder, negociar, convivencia, comentarios, nino_id, coach_id, horas_juego } = req.body;
+app.post('/attendances', authenticateToken, async (req, res) => {
+  const coachId = req.user.id; // Extrae el ID del coach desde el token
+  const { nino_id, act_eleccion_juego, act_perder, negociar, convivencia, comentarios, fecha, horas_juego } = req.body;
 
   try {
-    const result = await pool.query(
-      'INSERT INTO attendances (fecha, act_eleccion_juego, act_perder, negociar, convivencia, comentarios, nino_id, coach_id, horas_juego) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
-      [fecha, act_eleccion_juego, act_perder, negociar, convivencia, comentarios, nino_id, coach_id, horas_juego]
-    );
-    res.status(201).json(result.rows[0]); // Devolver el registro creado
+    const query = `
+      INSERT INTO attendances (nino_id, act_eleccion_juego, act_perder, negociar, convivencia, comentarios, fecha, horas_juego, coach_id)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+      RETURNING *;
+    `;
+    const values = [nino_id, act_eleccion_juego, act_perder, negociar, convivencia, comentarios, fecha, horas_juego, coachId];
+
+    const result = await pool.query(query, values);
+    res.json(result.rows[0]);
   } catch (err) {
-    console.error('Error al registrar asistencia:', err);
-    res.status(500).json({ error: 'Error al registrar asistencia' });
+    console.error('Error al registrar la asistencia:', err);
+    res.status(500).json({ error: 'Error al registrar la asistencia' });
   }
 });
 
