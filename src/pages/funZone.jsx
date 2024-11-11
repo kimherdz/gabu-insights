@@ -4,7 +4,6 @@ import './fun.css';
 
 import simonImage from '../img/simon.png';
 import moleImage from '../img/mole.png';
-import tictactoeImage from '../img/tictactoe.png';
 
 const FunZone = () => {
   const navigate = useNavigate();
@@ -29,13 +28,7 @@ const FunZone = () => {
         className='responsive-img'
         
       />
-      <img
-        src={tictactoeImage} 
-        alt="Tic Tac Toe"
-        onClick={() => redirectToGame('/tic-tac-toe')}
-        className='responsive-img'
-        
-      />
+      
     </div>
   );
 };
