@@ -34,7 +34,7 @@ const Login = () => {
         } else if (data.role === 'coach') {
           navigate('/coachesView'); // Vista de coaches
         } else if (data.role === 'admin') {
-          navigate('/adminView'); // Vista de admin
+          navigate('/viewAllReports'); // Vista de admin
         }
       } else {
         if (response.status === 401) {

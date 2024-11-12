@@ -7,9 +7,14 @@ import GameTime from './pages/gameTime';
 import Social from './pages/social'; 
 import FunZone from './pages/funZone'; 
 import Login from './pages/login';
-import SignUp from './pages/signUp';
+
+import RegisterUsers from './pages/registerUsers';
+import RegisterPapas from './pages/admins/registerPapas';
+import RegisterCoaches from './pages/admins/registerCoaches';
+
 import CoachView from './pages/coaches/coachesView';
 import FullReport from './pages/coaches/fullReport';
+
 import Simon from './pages/games/simon';
 import Mole from './pages/games/mole';
 import { AuthProvider } from './pages/authContext';
@@ -30,8 +35,11 @@ function App() {
             <Route path="/funZone" element={<FunZone />} />
             <Route path="/login" element={<Login />} /> 
             <Route path="/coachesView" element={<CoachView />} />
-            <Route path="/fullReport" element={<FullReport />} /> 
-            <Route path="/SignUp" element={<SignUp />} />
+            <Route path="/fullReport" element={<FullReport />} />
+
+            <Route path="/registerUsers" element={<RegisterUsers />} />
+            <Route path="/admins/registerPapas" element={<RegisterPapas />} />
+            <Route path="/admins/registgerCoaches" element={<RegisterCoaches />} />
 
             <Route path="/games/simon" element={<Simon />} />
             <Route path="/games/mole" element={<Mole />} />

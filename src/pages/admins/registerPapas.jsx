@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import './accounts.css';
+import './admins.css';
 
-const SignUp = () => {
+const RegisterUsers = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -101,4 +101,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default RegisterUsers;
