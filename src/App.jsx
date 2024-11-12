@@ -39,7 +39,7 @@ function App() {
 
             <Route path="/registerUsers" element={<RegisterUsers />} />
             <Route path="/admins/registerPapas" element={<RegisterPapas />} />
-            <Route path="/admins/registgerCoaches" element={<RegisterCoaches />} />
+            <Route path="/admins/registerCoaches" element={<RegisterCoaches />} />            
 
             <Route path="/games/simon" element={<Simon />} />
             <Route path="/games/mole" element={<Mole />} />

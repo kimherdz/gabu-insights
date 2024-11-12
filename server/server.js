@@ -175,8 +175,6 @@ app.post('/login', async (req, res) => {
       } else {
         return res.status(401).json({ message: 'Contraseña incorrecta' });
       }
-
-
     }
 
     // Verificar si el usuario es un coach
@@ -199,8 +197,6 @@ app.post('/login', async (req, res) => {
       } else {
         return res.status(401).json({ message: 'Contraseña incorrecta' });
       }
-
-
     }
 
     // Verificar si el usuario es un admin
@@ -274,7 +270,51 @@ app.put('/coach/attendance/update', authenticateToken, async (req, res) => {
   }
 });
 
+// Ruta para registrar nuevos papas
+app.post('/registerParent', async (req, res) => {
+  const { name, email, phone, password, childName, childAge, minecraft, roblox, stumble_guys } = req.body;
 
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const parentResult = await pool.query(
+      'INSERT INTO parents (nombre, telefono, email, contrasena) VALUES ($1, $2, $3, $4) RETURNING id',
+      [name, phone, email, hashedPassword]
+    );
+
+    const parentId = parentResult.rows[0].id;
+    await pool.query(
+      'INSERT INTO children (nombre, edad, padre_id, minecraft, roblox, stumble_guys) VALUES ($1, $2, $3, $4, $5, $6)',
+      [childName, childAge, parentId, minecraft, roblox, stumble_guys]
+    );
+
+    res.status(201).json({ message: 'Papá e hijo registrados correctamente' });
+  } catch (error) {
+    console.error('Error registrando padre e hijo:', error);
+    res.status(500).json({ error: 'Error registrando padre e hijo' });
+  }
+});
+
+// Ruta para registrar nuevos coaches
+app.post('/registerCoach', async (req, res) => {
+  const { name, email, phone, password } = req.body;
+
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const coachResult = await pool.query(
+      'INSERT INTO coaches (nombre, telefono, email, contrasena) VALUES ($1, $2, $3, $4) RETURNING id',
+      [name, phone, email, hashedPassword]
+    );
+
+    const coachId = coachResult.rows[0].id;
+
+    res.status(201).json({ message: 'Coach registrado correctamente', coachId });
+  } catch (error) {
+    console.error('Error registrando coach:', error);
+    res.status(500).json({ error: 'Error registrando coach' });
+  }
+});
 
 
 // Inicia el servidor
