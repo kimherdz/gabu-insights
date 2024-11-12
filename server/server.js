@@ -70,7 +70,6 @@ app.post('/attendances', authenticateToken, async (req, res) => {
   }
 });
 
-
 // Ruta para obtener los comentarios de las asistencias de los hijos del padre logueado
 app.get('/attendances/comments', authenticateToken, async (req, res) => {
   const parentId = req.user.id;
@@ -316,6 +315,51 @@ app.post('/registerCoach', async (req, res) => {
   }
 });
 
+// Ruta para obtener todos los registros de padres
+app.get('/admin/parents', authenticateToken, async (req, res) => {
+  try {
+    const query = `
+      SELECT id, nombre, telefono, email, contrasena, status
+      FROM parents
+      ORDER BY id ASC;
+    `;
+    const { rows } = await pool.query(query);
+    res.json(rows);
+  } catch (err) {
+    console.error('Error al obtener la lista de padres:', err);
+    res.status(500).json({ error: 'Error al obtener la lista de padres' });
+  }
+});
+
+// Ruta para actualizar un registro específico en la tabla de padres
+app.put('/admin/parent/update', authenticateToken, async (req, res) => {
+  const { id, data } = req.body;
+
+  try {
+    // Construimos la consulta dinámicamente solo con los campos presentes en 'data'
+    const fields = Object.keys(data).map((key, index) => `${key} = $${index + 1}`);
+    const values = Object.values(data);
+
+    const query = `
+      UPDATE parents
+      SET ${fields.join(', ')}
+      WHERE id = $${fields.length + 1}
+      RETURNING *;
+    `;
+    
+    // Agregamos el ID al final de los valores
+    const { rows } = await pool.query(query, [...values, id]);
+
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'Registro de padre no encontrado' });
+    }
+
+    res.json({ message: 'Registro actualizado exitosamente', parent: rows[0] });
+  } catch (err) {
+    console.error('Error al actualizar el registro de padre:', err);
+    res.status(500).json({ error: 'Error al actualizar el registro de padre' });
+  }
+});
 
 // Inicia el servidor
 app.listen(PORT, () => {

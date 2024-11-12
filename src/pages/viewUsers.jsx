@@ -4,6 +4,7 @@ import './fun.css';
 
 import parentImage from '../img/parents.png';
 import coachImage from '../img/coach.png';
+import kidImage from '../img/ninos.png';
 
 const ViewUsers = () => {
   const navigate = useNavigate();
@@ -17,14 +18,21 @@ const ViewUsers = () => {
       <img
         src={parentImage}
         alt="Papas"
-        onClick={() => redirectToRegis('/admins/registerPapas')}
+        onClick={() => redirectToRegis('/admins/viewPapas')}
         className='responsive-img'
         
       />
       <img
         src={coachImage}
         alt="Coaches"
-        onClick={() => redirectToRegis('/admins/registerCoaches')}
+        onClick={() => redirectToRegis('/admins/viewCoaches')}
+        className='responsive-img'
+        
+      />
+      <img
+        src={kidImage}
+        alt="Coaches"
+        onClick={() => redirectToRegis('/admins/viewKids')}
         className='responsive-img'
         
       />

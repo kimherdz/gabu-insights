@@ -80,7 +80,7 @@ const NavigationBar = () => {
             <>
               <Nav.Link as={Link} to="/viewAllReports">Ver todos los reportes</Nav.Link>
               <Nav.Link as={Link} to="/registerUsers">Registro de nuevos usuarios</Nav.Link>
-              <Nav.Link as={Link} to="/viewAllUsers">Ver todos los usuarios</Nav.Link>
+              <Nav.Link as={Link} to="/viewUsers">Ver todos los usuarios</Nav.Link>
             </>
           )}
         </Nav>

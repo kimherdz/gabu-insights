@@ -23,7 +23,7 @@ const CoachView = () => {
         });
         const formattedData = response.data.map(attendance => ({
           ...attendance,
-          fecha: new Date(attendance.fecha) // Formateamos la fecha
+          fecha: new Date(attendance.fecha) // Formatear la fecha
         }));
         setAttendances(formattedData);
       } catch (error) {

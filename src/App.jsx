@@ -11,6 +11,8 @@ import Login from './pages/login';
 import RegisterUsers from './pages/registerUsers';
 import RegisterPapas from './pages/admins/registerPapas';
 import RegisterCoaches from './pages/admins/registerCoaches';
+import ViewUsers from './pages/viewUsers';
+import ViewPapas from './pages/admins/viewPapas';
 
 import CoachView from './pages/coaches/coachesView';
 import FullReport from './pages/coaches/fullReport';
@@ -39,7 +41,9 @@ function App() {
 
             <Route path="/registerUsers" element={<RegisterUsers />} />
             <Route path="/admins/registerPapas" element={<RegisterPapas />} />
-            <Route path="/admins/registerCoaches" element={<RegisterCoaches />} />            
+            <Route path="/admins/registerCoaches" element={<RegisterCoaches />} />
+            <Route path="/viewUsers" element={<ViewUsers />} />
+            <Route path="/admins/viewPapas" element={<ViewPapas />} />
 
             <Route path="/games/simon" element={<Simon />} />
             <Route path="/games/mole" element={<Mole />} />
