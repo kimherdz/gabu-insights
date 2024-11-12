@@ -32,7 +32,7 @@ const ViewUsers = () => {
       <img
         src={kidImage}
         alt="Coaches"
-        onClick={() => redirectToRegis('/admins/viewKids')}
+        onClick={() => redirectToRegis('/admins/viewChildren')}
         className='responsive-img'
         
       />

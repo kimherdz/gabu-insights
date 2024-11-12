@@ -407,6 +407,62 @@ app.put('/admin/coach/update', authenticateToken, async (req, res) => {
   }
 });
 
+// Ruta para obtener todos los niños con el nombre del padre
+app.get('/admin/children', authenticateToken, async (req, res) => {
+  try {
+    const query = `
+      SELECT ch.id, ch.nombre AS nombre_nino, ch.edad, p.nombre AS nombre_padre, ch.minecraft, ch.roblox, ch.stumble_guys, ch.status             
+      FROM children ch
+      JOIN parents p ON ch.padre_id = p.id
+      ORDER BY ch.nombre;
+    `;
+    const { rows } = await pool.query(query);
+    res.json(rows);
+  } catch (err) {
+    console.error('Error al obtener los registros de niños:', err);
+    res.status(500).json({ error: 'Error al obtener los registros de niños' });
+  }
+});
+
+// Ruta para actualizar un niño
+app.put('/admin/child/update', authenticateToken, async (req, res) => {
+  const { id, data } = req.body;
+
+  try {
+    // Definir los campos que sí están en la tabla `children`
+    const validFields = ['nombre', 'edad', 'padre_id', 'minecraft', 'roblox', 'stumble_guys', 'status'];
+    
+    // Filtrar el objeto `data` para incluir solo los campos válidos
+    const filteredData = Object.fromEntries(
+      Object.entries(data).filter(([key]) => validFields.includes(key))
+    );
+
+    // Crear el SET para la actualización
+    const fields = Object.keys(filteredData).map((key, index) => `${key} = $${index + 1}`);
+    const values = Object.values(filteredData);
+
+    // Verificar si hay datos válidos para actualizar
+    if (fields.length === 0) {
+      return res.status(400).json({ error: 'No se proporcionaron campos válidos para actualizar.' });
+    }
+
+    // Realizar la consulta de actualización
+    const query = `
+      UPDATE children
+      SET ${fields.join(', ')}
+      WHERE id = $${fields.length + 1}
+    `;
+    await pool.query(query, [...values, id]);
+
+    res.json({ message: 'Registro de niño actualizado exitosamente' });
+  } catch (err) {
+    console.error('Error al actualizar el registro de niño:', err);
+    res.status(500).json({ error: 'Error al actualizar el registro de niño' });
+  }
+});
+
+
+
 // Inicia el servidor
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
