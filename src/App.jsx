@@ -13,6 +13,7 @@ import RegisterPapas from './pages/admins/registerPapas';
 import RegisterCoaches from './pages/admins/registerCoaches';
 import ViewUsers from './pages/viewUsers';
 import ViewPapas from './pages/admins/viewPapas';
+import ViewCoaches from './pages/admins/viewCoaches';
 
 import CoachView from './pages/coaches/coachesView';
 import FullReport from './pages/coaches/fullReport';
@@ -44,6 +45,7 @@ function App() {
             <Route path="/admins/registerCoaches" element={<RegisterCoaches />} />
             <Route path="/viewUsers" element={<ViewUsers />} />
             <Route path="/admins/viewPapas" element={<ViewPapas />} />
+            <Route path="/admins/viewCoaches" element={<ViewCoaches />} />
 
             <Route path="/games/simon" element={<Simon />} />
             <Route path="/games/mole" element={<Mole />} />

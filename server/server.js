@@ -361,6 +361,52 @@ app.put('/admin/parent/update', authenticateToken, async (req, res) => {
   }
 });
 
+// Ruta para obtener todos los registros de coaches
+app.get('/admin/coaches', authenticateToken, async (req, res) => {
+  try {
+    const query = `
+      SELECT id, nombre, telefono, email, contrasena, status
+      FROM coaches
+      ORDER BY id ASC;
+    `;
+    const { rows } = await pool.query(query);
+    res.json(rows);
+  } catch (err) {
+    console.error('Error al obtener la lista de coaches:', err);
+    res.status(500).json({ error: 'Error al obtener la lista de coaches' });
+  }
+});
+
+// Ruta para actualizar un registro específico en la tabla de padres
+app.put('/admin/coach/update', authenticateToken, async (req, res) => {
+  const { id, data } = req.body;
+
+  try {
+    // Construimos la consulta dinámicamente solo con los campos presentes en 'data'
+    const fields = Object.keys(data).map((key, index) => `${key} = $${index + 1}`);
+    const values = Object.values(data);
+
+    const query = `
+      UPDATE coaches
+      SET ${fields.join(', ')}
+      WHERE id = $${fields.length + 1}
+      RETURNING *;
+    `;
+    
+    // Agregamos el ID al final de los valores
+    const { rows } = await pool.query(query, [...values, id]);
+
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'Registro de coach no encontrado' });
+    }
+
+    res.json({ message: 'Registro actualizado exitosamente', coach: rows[0] });
+  } catch (err) {
+    console.error('Error al actualizar el registro de coach:', err);
+    res.status(500).json({ error: 'Error al actualizar el registro de coach' });
+  }
+});
+
 // Inicia el servidor
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
