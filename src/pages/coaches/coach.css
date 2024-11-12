@@ -60,7 +60,7 @@ input[type="range"]::-moz-range-track {
 /* Estilo para el thumb del slider */
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
-  background: #4715e2;
+  background: #5430B8;
   border: none;
   border-radius: 50%;
   width: 20px;
@@ -84,7 +84,7 @@ input[type="range"]:hover::-moz-range-thumb {
 
 /* Botón de envío */
 .but {
-  background-color: #4715e2;
+  background-color: #5430B8;
   color: white;
   border: none;
   border-radius: 10px;
@@ -94,7 +94,7 @@ input[type="range"]:hover::-moz-range-thumb {
 
 .but:hover {
   background-color: #e5ddff;
-  color: #4715e2;
+  color: #5430B8;
 }
 
 .modal {
@@ -130,5 +130,5 @@ input[type="range"]:hover::-moz-range-thumb {
 }
 
 .close:hover {
-  color: #4715e2;
+  color: #5430B8;
 }

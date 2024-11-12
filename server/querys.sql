@@ -2,7 +2,9 @@ CREATE TABLE parents (
     id BIGSERIAL PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     telefono VARCHAR(15),
-    email VARCHAR(255) UNIQUE
+    email VARCHAR(255) UNIQUE,
+    contrasena VARCHAR(255) UNIQUE,
+    status BOOLEAN DEFAULT TRUE
 );
 
 CREATE TABLE children (
@@ -19,7 +21,26 @@ CREATE TABLE coaches (
     id BIGSERIAL PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     telefono VARCHAR(15),
-    email VARCHAR(255) UNIQUE
+    email VARCHAR(255) UNIQUE,
+    contrasena VARCHAR(255) UNIQUE,
+    status BOOLEAN DEFAULT TRUE
+);
+
+CREATE TABLE coaches (
+    id BIGSERIAL PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    telefono VARCHAR(15),
+    email VARCHAR(255) UNIQUE,
+    contrasena VARCHAR(255) UNIQUE,
+    status BOOLEAN DEFAULT TRUE
+);
+
+CREATE TABLE admins (
+    id BIGSERIAL PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    telefono VARCHAR(15),
+    email VARCHAR(255) UNIQUE,
+    contrasena VARCHAR(255) UNIQUE
 );
 
 CREATE TABLE attendances (

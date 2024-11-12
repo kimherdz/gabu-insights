@@ -20,6 +20,14 @@ async function encryptPasswords() {
       await pool.query('UPDATE coaches SET contrasena = $1 WHERE id = $2', [hashedPassword, coach.id]);
     }
     console.log('Contraseñas de entrenadores encriptadas con éxito.');
+
+    // encriptar contraseñas de admins
+    const admins = await pool.query('SELECT id, contrasena FROM admins');
+    for (const admin of admins.rows) {
+      const hashedPassword = await bcrypt.hash(admin.contrasena, saltRounds);
+      await pool.query('UPDATE admins SET contrasena = $1 WHERE id = $2', [hashedPassword, admin.id]);
+    }
+    console.log('Contraseñas de admins encriptadas con éxito.');
   } catch (error) {
     console.error('Error encriptando contraseñas:', error);
   } finally {

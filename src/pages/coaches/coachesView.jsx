@@ -15,8 +15,8 @@ const CoachView = () => {
   });
 
   const [children, setChildren] = useState([]);
-  const [errorMessage, setErrorMessage] = useState(''); 
-  const [showModal, setShowModal] = useState(false); // Nuevo estado para controlar el modal
+  const [modalMessage, setModalMessage] = useState(''); 
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const fetchChildren = async () => {
@@ -43,14 +43,11 @@ const CoachView = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validación: Verifica si los campos requeridos están completos
     if (!formData.childName || !formData.gamePlayed || !formData.comments) {
-      setErrorMessage('Por favor, completa todos los campos obligatorios.');
-      setShowModal(true); // Muestra el modal si la validación falla
+      setModalMessage('Por favor, completa todos los campos obligatorios.');
+      setShowModal(true);
       return;
     }
-    setErrorMessage(''); // Limpiar mensaje de error si la validación pasa
-    setShowModal(false); // Oculta el modal si la validación pasa
 
     try {
       const response = await fetch('http://localhost:3001/attendances', {
@@ -72,28 +69,41 @@ const CoachView = () => {
       });
 
       if (response.ok) {
-        console.log('Asistencia registrada con éxito');
+        setModalMessage('Asistencia registrada con éxito');
+        setFormData({
+          childName: '',
+          positiveAttitudeWhenNotChosen: '',
+          positiveAttitudeWhenLosing: '',
+          goodFaith: '',
+          coexistenceLevel: 5,
+          comments: '',
+          hoursPlayed: 1,
+          gamePlayed: '',
+          sessionDate: '',
+        });
       } else {
-        console.error('Error al registrar la asistencia');
+        setModalMessage('Error al registrar la asistencia');
       }
     } catch (error) {
-      console.error('Error al enviar el formulario:', error);
+      setModalMessage('Error al enviar el formulario');
+    } finally {
+      setShowModal(true);
     }
   };
 
   const closeModal = () => {
-    setShowModal(false); // Función para cerrar el modal
+    setShowModal(false);
   };
 
   return (
     <div>
       <h2>Registro de Comportamiento del Niño</h2>
-      
+
       {showModal && (
         <div className="modal">
           <div className="modal-content">
             <span className="close" onClick={closeModal}>&times;</span>
-            <p>{errorMessage}</p>
+            <p>{modalMessage}</p>
           </div>
         </div>
       )}

@@ -155,12 +155,18 @@ app.post('/login', async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    // Verificar si es padre
+    // Verificar si el usuario es un padre
     const parentQuery = 'SELECT * FROM parents WHERE email = $1';
     const parentResult = await pool.query(parentQuery, [username]);
 
     if (parentResult.rows.length > 0) {
       const parent = parentResult.rows[0];
+
+      // Verificar si el usuario está activo
+      if (!parent.status) {
+        return res.status(401).json({ message: 'Usuario no activo' });
+      }
+
       const passwordMatch = await bcrypt.compare(password, parent.contrasena); // Verificar la contraseña
 
       if (passwordMatch) {
@@ -169,14 +175,22 @@ app.post('/login', async (req, res) => {
       } else {
         return res.status(401).json({ message: 'Contraseña incorrecta' });
       }
+
+
     }
 
-    // Verificar si es un coach
+    // Verificar si el usuario es un coach
     const coachQuery = 'SELECT * FROM coaches WHERE email = $1';
     const coachResult = await pool.query(coachQuery, [username]);
 
     if (coachResult.rows.length > 0) {
       const coach = coachResult.rows[0];
+
+      // Verificar si el usuario está activo
+      if (!coach.status) {
+        return res.status(401).json({ message: 'Usuario no activo' });
+      }
+
       const passwordMatch = await bcrypt.compare(password, coach.contrasena); // Verificar la contraseña
 
       if (passwordMatch) {
@@ -185,14 +199,83 @@ app.post('/login', async (req, res) => {
       } else {
         return res.status(401).json({ message: 'Contraseña incorrecta' });
       }
+
+
     }
 
-    return res.status(404).json({ message: 'Usuario no encontrado' });
+    // Verificar si el usuario es un admin
+    const adminQuery = 'SELECT * FROM admins WHERE email = $1';
+    const adminResult = await pool.query(adminQuery, [username]);
+
+    if (adminResult.rows.length > 0) {
+      const admin = adminResult.rows[0];
+
+      // Verificar la contraseña
+      const passwordMatch = await bcrypt.compare(password, admin.contrasena);
+      if (passwordMatch) {
+        const token = jwt.sign({ id: admin.id, role: 'admin' }, SECRET_KEY, { expiresIn: '1h' });
+        return res.status(200).json({ token, role: 'admin' });
+      } else {
+        return res.status(401).json({ message: 'Contraseña incorrecta' });
+      }
+    }
+
+    // Si no se encuentra el usuario en ninguna tabla
+    res.status(404).json({ message: 'Usuario no encontrado' });
   } catch (error) {
     console.error('Error en el inicio de sesión:', error);
     res.status(500).json({ message: 'Error interno del servidor' });
   }
 });
+
+// Ruta para obtener los registros de asistencia del coach logueado
+app.get('/coach/attendances', authenticateToken, async (req, res) => {
+  const coachId = req.user.id;
+
+  try {
+    const query = `
+      SELECT a.id, ch.nombre AS nombre_nino, a.act_eleccion_juego, a.act_perder, a.negociar, 
+             a.convivencia, a.comentarios, a.fecha, a.horas_juego
+      FROM attendances a
+      JOIN children ch ON a.nino_id = ch.id
+      WHERE a.coach_id = $1
+      ORDER BY a.fecha DESC;
+    `;
+    const { rows } = await pool.query(query, [coachId]);
+    res.json(rows);
+  } catch (err) {
+    console.error('Error al obtener los registros de asistencia:', err);
+    res.status(500).json({ error: 'Error al obtener los registros de asistencia' });
+  }
+});
+
+//Ruta para actualizar la asistencia del coach logueado
+app.put('/coach/attendance/update', authenticateToken, async (req, res) => {
+  const { id, data } = req.body;
+
+  try {
+    // Construimos la consulta dinámicamente solo con los campos presentes en 'data'
+    const fields = Object.keys(data).map((key, index) => `${key} = $${index + 1}`);
+    const values = Object.values(data);
+
+    const query = `
+      UPDATE attendances
+      SET ${fields.join(', ')}
+      WHERE id = $${fields.length + 1}
+    `;
+    
+    // Agregamos el ID al final de los valores
+    await pool.query(query, [...values, id]);
+
+    res.json({ message: 'Registro actualizado exitosamente' });
+  } catch (err) {
+    console.error('Error al actualizar el registro:', err);
+    res.status(500).json({ error: 'Error al actualizar el registro' });
+  }
+});
+
+
+
 
 // Inicia el servidor
 app.listen(PORT, () => {

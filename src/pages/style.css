@@ -9,14 +9,14 @@ h1 {
 }
 
 h2, h3 {
-    color: #4715e2;
+    color: #5430B8;
     font-size: 2rem;
     
     
 }
 h4{
   text-align: center;
-  color: #4715e2;
+  color: #5430B8;
   font-size: 2rem;
 }
 
@@ -211,7 +211,7 @@ h4{
 .section-title {
   font-size: 1.5em;
   margin-top: 20px;
-  color: #4715e2;
+  color: #5430B8;
 }
 
 .post-list {
@@ -234,7 +234,7 @@ h4{
 }
 
 .post-user {
-  color: #4715e2;
+  color: #5430B8;
   font-weight: bold;
 }
 
@@ -269,7 +269,7 @@ h4{
   padding: 10px;
   margin-top: 10px;
   border-radius: 8px;
-  background-color: #4715e2;
+  background-color: #5430B8;
   color: white;
   border: none;
   cursor: pointer;
@@ -278,5 +278,5 @@ h4{
 
 .post-button:hover {
   background-color: #e5ddff;
-  color: #4715e2;
+  color: #5430B8;
 }

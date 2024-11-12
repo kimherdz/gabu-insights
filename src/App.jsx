@@ -9,28 +9,35 @@ import FunZone from './pages/funZone';
 import Login from './pages/login';
 import SignUp from './pages/signUp';
 import CoachView from './pages/coaches/coachesView';
+import FullReport from './pages/coaches/fullReport';
 import Simon from './pages/games/simon';
 import Mole from './pages/games/mole';
+import { AuthProvider } from './pages/authContext';
 
 function App() {
   return (
     <Router>
-      <div className="App">
-        <NavigationBar /> 
-        <Routes>
-          <Route path="/" element={<Home />} /> 
-          <Route path="/parenting" element={<Parenting />} /> 
-          <Route path="/gameTime" element={<GameTime />} /> 
-          <Route path="/social" element={<Social />} /> 
-          <Route path="/funZone" element={<FunZone />} />
-          <Route path="/login" element={<Login />} /> 
-          <Route path="/coachesView" element={<CoachView />} /> 
-          <Route path="/SignUp" element={<SignUp />} />
+      <AuthProvider>
+        <div className="App">
+          
+          <NavigationBar />
+          
+          <Routes>
+            <Route path="/" element={<Home />} /> 
+            <Route path="/parenting" element={<Parenting />} /> 
+            <Route path="/gameTime" element={<GameTime />} /> 
+            <Route path="/social" element={<Social />} /> 
+            <Route path="/funZone" element={<FunZone />} />
+            <Route path="/login" element={<Login />} /> 
+            <Route path="/coachesView" element={<CoachView />} />
+            <Route path="/fullReport" element={<FullReport />} /> 
+            <Route path="/SignUp" element={<SignUp />} />
 
-          <Route path="/games/simon" element={<Simon />} />
-          <Route path="/games/mole" element={<Mole />} />
-        </Routes>
-      </div>
+            <Route path="/games/simon" element={<Simon />} />
+            <Route path="/games/mole" element={<Mole />} />
+          </Routes>
+        </div>
+      </AuthProvider> 
     </Router>
   );
 }
