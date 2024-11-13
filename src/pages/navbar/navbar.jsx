@@ -1,16 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { Navbar, Nav, Button } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom'; 
 import './navbar.css';
 import { AuthContext } from '../authContext';
-
-import homeImage from '../../img/home.png';
-import parentingImage from '../../img/parenting.png';
-import gameTimeImage from '../../img/gameTime.png';
-import socialImage from '../../img/social.png';
-import gameImage from '../../img/game.png';
-import logoImage from '../../img/logo.png';
-
 
 const NavigationBar = () => {
   const navigate = useNavigate();
@@ -25,7 +17,7 @@ const NavigationBar = () => {
 
   return (
     <Navbar bg="dark" variant="dark" expand="lg"> 
-      <img src={logoImage} alt="Logo" className="nav-imagelogo" />
+      <img src={'https://storage.cloud.google.com/mi-app-img/logo.png'} alt="Logo" className="nav-imagelogo" />
       <Navbar.Toggle aria-controls="navbar-nav" /> 
       <Navbar.Collapse id="navbar-nav">
         <Nav className="me-auto"> 
@@ -33,7 +25,7 @@ const NavigationBar = () => {
           {/* Home (Visible para todos) */}
           <div className="nav-item-container">
             <Nav.Link as={Link} to="/" className="nav-link-with-image">
-              <img src={homeImage} alt="Home" className="nav-image" />
+              <img src={'https://storage.cloud.google.com/mi-app-img/home.png'} alt="Home" className="nav-image" />
               <span className="hover-text">Home</span>
             </Nav.Link>
           </div>
@@ -43,25 +35,25 @@ const NavigationBar = () => {
             <>
               <div className="nav-item-container">
                 <Nav.Link as={Link} to="/parenting" className="nav-link-with-image">
-                  <img src={parentingImage} alt="Parenting" className="nav-image" />
+                  <img src={'https://storage.cloud.google.com/mi-app-img/parenting.png'} alt="Parenting" className="nav-image" />
                   <span className="hover-text">Parenting</span>
                 </Nav.Link>
               </div>
               <div className="nav-item-container">
                 <Nav.Link as={Link} to="/gameTime" className="nav-link-with-image">
-                  <img src={gameTimeImage} alt="Tiempo de Juego" className="nav-image" />
+                  <img src={'https://storage.cloud.google.com/mi-app-img/gameTime.png'} alt="Tiempo de Juego" className="nav-image" />
                   <span className="hover-text">Tiempo de Juego</span>
                 </Nav.Link>
               </div>
               <div className="nav-item-container">
                 <Nav.Link as={Link} to="/social" className="nav-link-with-image">
-                  <img src={socialImage} alt="Interacciones Sociales" className="nav-image" />
+                  <img src={'https://storage.cloud.google.com/mi-app-img/social.png'} alt="Interacciones Sociales" className="nav-image" />
                   <span className="hover-text">Foro Gabu</span>
                 </Nav.Link>
               </div>
               <div className="nav-item-container">
                 <Nav.Link as={Link} to="/funZone" className="nav-link-with-image">
-                  <img src={gameImage} alt="FunZone" className="nav-image" />
+                  <img src={'https://storage.cloud.google.com/mi-app-img/game.png'} alt="FunZone" className="nav-image" />
                   <span className="hover-text">Fun Zone</span>
                 </Nav.Link>
               </div>

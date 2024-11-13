@@ -5,8 +5,10 @@ import Home from './pages/home';
 import Parenting from './pages/parenting'; 
 import GameTime from './pages/gameTime';
 import Social from './pages/social'; 
-import FunZone from './pages/funZone'; 
+import FunZone from './pages/funZone';
+ 
 import Login from './pages/login';
+import EditAccount from './pages/editAccount';
 
 import RegisterUsers from './pages/registerUsers';
 import RegisterPapas from './pages/admins/registerPapas';
@@ -37,9 +39,11 @@ function App() {
             <Route path="/gameTime" element={<GameTime />} /> 
             <Route path="/social" element={<Social />} /> 
             <Route path="/funZone" element={<FunZone />} />
-            <Route path="/login" element={<Login />} /> 
             <Route path="/coachesView" element={<CoachView />} />
             <Route path="/fullReport" element={<FullReport />} />
+
+            <Route path="/login" element={<Login />} /> 
+            <Route path="/editAccount" element={<EditAccount />} /> 
 
             <Route path="/registerUsers" element={<RegisterUsers />} />
             <Route path="/admins/registerPapas" element={<RegisterPapas />} />

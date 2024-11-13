@@ -5,7 +5,7 @@ const Simon = () => {
   const colors = ['green', 'red', 'yellow', 'blue'];
   const [gamePattern, setGamePattern] = useState([]);
   const [userPattern, setUserPattern] = useState([]);
-  const [level, setLevel] = useState(0);
+  const [setLevel] = useState(0);
   const [message, setMessage] = useState("Simon Says");
 
   useEffect(() => {

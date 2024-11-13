@@ -461,9 +461,108 @@ app.put('/admin/child/update', authenticateToken, async (req, res) => {
   }
 });
 
+// Ruta para obtener el perfil del usuario
+app.get('/user/profile', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const userRole = req.user.role;
 
+    let query;
+    if (userRole === 'parent') {
+      query = 'SELECT nombre, telefono, email, avatar FROM parents WHERE id = $1';
+    } else if (userRole === 'coach') {
+      query = 'SELECT nombre, telefono, email, avatar FROM coaches WHERE id = $1';
+    } else if (userRole === 'admin') {
+      query = 'SELECT nombre, telefono, email, avatar FROM admins WHERE id = $1';
+    } else {
+      return res.status(400).json({ error: 'Rol de usuario no válido' });
+    }
+
+    const { rows } = await pool.query(query, [userId]);
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'Usuario no encontrado' });
+    }
+
+    res.json(rows[0]);
+  } catch (error) {
+    console.error('Error al obtener perfil de usuario:', error);
+    res.status(500).json({ error: 'Error al obtener perfil de usuario' });
+  }
+});
+
+// Ruta para actualizar datos del usuario
+app.put('/user/update', authenticateToken, async (req, res) => {
+  const { nombre, telefono, email, avatar } = req.body;
+  const userId = req.user.id;
+  const userRole = req.user.role;
+
+  try {
+    let query;
+    let values = [nombre, telefono, email, avatar, userId];
+
+    if (userRole === 'parent') {
+      query = `
+        UPDATE parents
+        SET nombre = $1, telefono = $2, email = $3, avatar = $4
+        WHERE id = $5
+      `;
+    } else if (userRole === 'coach') {
+      query = `
+        UPDATE coaches
+        SET nombre = $1, telefono = $2, email = $3, avatar = $4
+        WHERE id = $5
+      `;
+    } else if (userRole === 'admin') {
+      query = `
+        UPDATE admins
+        SET nombre = $1, telefono = $2, email = $3, avatar = $4
+        WHERE id = $5
+      `;
+    } else {
+      return res.status(400).json({ error: 'Rol de usuario no válido' });
+    }
+
+    await pool.query(query, values);
+    res.json({ message: 'Perfil actualizado correctamente' });
+  } catch (error) {
+    console.error('Error al actualizar perfil de usuario:', error);
+    res.status(500).json({ error: 'Error al actualizar perfil de usuario' });
+  }
+});
+
+// Ruta para obtener los avatars
+app.get('/avatars', async (req, res) => {
+  try {
+    const avatars = [
+      'https://storage.cloud.google.com/avatares/1.png',
+      'https://storage.cloud.google.com/avatares/2.png',
+      'https://storage.cloud.google.com/avatares/3.png',
+      'https://storage.cloud.google.com/avatares/4.png',
+      'https://storage.cloud.google.com/avatares/5.png',
+      'https://storage.cloud.google.com/avatares/6.png',
+      'https://storage.cloud.google.com/avatares/7.png',
+      'https://storage.cloud.google.com/avatares/8.png',
+      'https://storage.cloud.google.com/avatares/9.png',
+      'https://storage.cloud.google.com/avatares/10.png',
+      'https://storage.cloud.google.com/avatares/11.png',
+      'https://storage.cloud.google.com/avatares/12.png',
+      'https://storage.cloud.google.com/avatares/13.png',
+      'https://storage.cloud.google.com/avatares/14.png',
+      'https://storage.cloud.google.com/avatares/15.png',
+      'https://storage.cloud.google.com/avatares/16.png',
+      'https://storage.cloud.google.com/avatares/17.png',
+      'https://storage.cloud.google.com/avatares/18.png',
+      'https://storage.cloud.google.com/avatares/19.png',
+      'https://storage.cloud.google.com/avatares/20.png',
+    ];
+    res.json(avatars);
+  } catch (error) {
+    console.error('Error al obtener avatares:', error);
+    res.status(500).json({ error: 'Error al obtener avatares' });
+  }
+});
 
 // Inicia el servidor
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Servidor corriendo en ${PORT}`);
 });

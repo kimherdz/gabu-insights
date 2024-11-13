@@ -1,12 +1,3 @@
-CREATE TABLE parents (
-    id BIGSERIAL PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
-    telefono VARCHAR(15),
-    email VARCHAR(255) UNIQUE,
-    contrasena VARCHAR(255) UNIQUE,
-    status BOOLEAN DEFAULT TRUE
-);
-
 CREATE TABLE children (
     id BIGSERIAL PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -17,7 +8,7 @@ CREATE TABLE children (
     stumble_guys BOOLEAN DEFAULT FALSE
 );
 
-CREATE TABLE coaches (
+CREATE TABLE parents (
     id BIGSERIAL PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     telefono VARCHAR(15),
