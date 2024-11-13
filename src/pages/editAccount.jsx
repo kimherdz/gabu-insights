@@ -6,16 +6,16 @@ import Button from 'react-bootstrap/Button';
 import { AuthContext } from './authContext';
 
 const EditAccount = () => {
-  const { avatar, setAvatar } = useContext(AuthContext); // Para actualizar el avatar en el navbar
+  const { avatar, updateAuthData } = useContext(AuthContext);
   const [userData, setUserData] = useState({
     nombre: '',
     email: '',
     telefono: '',
-    nuevaContrasena: '', // Nuevo campo para la contraseña
+    nuevaContrasena: '',
     avatar: '',
   });
   const [avatars, setAvatars] = useState([]);
-  const [selectedAvatar, setSelectedAvatar] = useState(avatar); // Inicializamos con el avatar del contexto
+  const [selectedAvatar, setSelectedAvatar] = useState(avatar || '');
   const [showAvatarModal, setShowAvatarModal] = useState(false);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const EditAccount = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUserData(response.data);
-        setSelectedAvatar(response.data.avatar);
+        setSelectedAvatar(response.data.avatar || '');
       } catch (error) {
         console.error('Error al cargar los datos del usuario:', error);
       }
@@ -56,29 +56,35 @@ const EditAccount = () => {
   const handleSaveChanges = async () => {
     try {
       const token = localStorage.getItem('token');
-      const updatedData = {
-        ...userData,
-        avatar: selectedAvatar,
-      };
-
-      // Solo enviamos la nueva contraseña si el usuario la ingresó
+      const updatedData = { ...userData, avatar: selectedAvatar };
+  
       if (userData.nuevaContrasena) {
         updatedData.contrasena = userData.nuevaContrasena;
       }
-
-      await axios.put(
+  
+      const response = await axios.put(
         'http://localhost:3001/user/update',
         updatedData,
         { headers: { Authorization: `Bearer ${token}` } }
       );
-
+  
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token);
+        const decodedToken = JSON.parse(atob(response.data.token.split('.')[1]));
+        // Actualiza AuthContext con el nuevo avatar
+        updateAuthData(decodedToken.role, decodedToken.id, selectedAvatar);
+      }
+  
       alert('Perfil actualizado correctamente');
-      setAvatar(selectedAvatar); // Actualizamos el avatar en el contexto
+      window.location.reload();
     } catch (error) {
       console.error('Error al actualizar el perfil:', error);
       alert('Hubo un error al actualizar el perfil');
     }
   };
+  
+  
+  
 
   return (
     <div>
@@ -102,7 +108,7 @@ const EditAccount = () => {
             type="text"
             id="nombre"
             name="nombre"
-            value={userData.nombre}
+            value={userData.nombre || ''}
             onChange={handleInputChange}
             className="form-input"
           />
@@ -112,7 +118,7 @@ const EditAccount = () => {
             type="email"
             id="email"
             name="email"
-            value={userData.email}
+            value={userData.email || ''}
             onChange={handleInputChange}
             className="form-input"
           />
@@ -122,7 +128,7 @@ const EditAccount = () => {
             type="tel"
             id="telefono"
             name="telefono"
-            value={userData.telefono}
+            value={userData.telefono || ''}
             onChange={handleInputChange}
             className="form-input"
           />
@@ -132,7 +138,7 @@ const EditAccount = () => {
             type="password"
             id="nuevaContrasena"
             name="nuevaContrasena"
-            value={userData.nuevaContrasena}
+            value={userData.nuevaContrasena || ''}
             onChange={handleInputChange}
             className="form-input"
             placeholder="Ingresa una nueva contraseña"

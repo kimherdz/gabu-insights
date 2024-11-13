@@ -6,7 +6,8 @@ const jwt = require('jsonwebtoken');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
-const SECRET_KEY = 'marta1329'
+const SECRET_KEY = 'marta1329';
+
 
 // Middleware para manejar JSON
 app.use(cors({ origin: 'http://localhost:3000' }));
@@ -490,38 +491,73 @@ app.get('/user/profile', authenticateToken, async (req, res) => {
   }
 });
 
-// Ruta para actualizar datos del usuario
 app.put('/user/update', authenticateToken, async (req, res) => {
-  const { nombre, telefono, email, avatar } = req.body;
+  const { nombre, telefono, email, avatar, contrasena } = req.body;
   const userId = req.user.id;
   const userRole = req.user.role;
 
   try {
     let query;
-    let values = [nombre, telefono, email, avatar, userId];
+    let values;
+
+    // Si la contraseña es proporcionada, la encriptamos
+    let hashedPassword = contrasena ? await bcrypt.hash(contrasena, 10) : null;
 
     if (userRole === 'parent') {
-      query = `
-        UPDATE parents
-        SET nombre = $1, telefono = $2, email = $3, avatar = $4
-        WHERE id = $5
-      `;
+      if (hashedPassword) {
+        // Incluye la contraseña si es proporcionada
+        query = `
+          UPDATE parents
+          SET nombre = $1, telefono = $2, email = $3, avatar = $4, contrasena = $5
+          WHERE id = $6
+        `;
+        values = [nombre, telefono, email, avatar, hashedPassword, userId];
+      } else {
+        // Si no hay contraseña, solo actualiza los otros campos
+        query = `
+          UPDATE parents
+          SET nombre = $1, telefono = $2, email = $3, avatar = $4
+          WHERE id = $5
+        `;
+        values = [nombre, telefono, email, avatar, userId];
+      }
     } else if (userRole === 'coach') {
-      query = `
-        UPDATE coaches
-        SET nombre = $1, telefono = $2, email = $3, avatar = $4
-        WHERE id = $5
-      `;
+      if (hashedPassword) {
+        query = `
+          UPDATE coaches
+          SET nombre = $1, telefono = $2, email = $3, avatar = $4, contrasena = $5
+          WHERE id = $6
+        `;
+        values = [nombre, telefono, email, avatar, hashedPassword, userId];
+      } else {
+        query = `
+          UPDATE coaches
+          SET nombre = $1, telefono = $2, email = $3, avatar = $4
+          WHERE id = $5
+        `;
+        values = [nombre, telefono, email, avatar, userId];
+      }
     } else if (userRole === 'admin') {
-      query = `
-        UPDATE admins
-        SET nombre = $1, telefono = $2, email = $3, avatar = $4
-        WHERE id = $5
-      `;
+      if (hashedPassword) {
+        query = `
+          UPDATE admins
+          SET nombre = $1, telefono = $2, email = $3, avatar = $4, contrasena = $5
+          WHERE id = $6
+        `;
+        values = [nombre, telefono, email, avatar, hashedPassword, userId];
+      } else {
+        query = `
+          UPDATE admins
+          SET nombre = $1, telefono = $2, email = $3, avatar = $4
+          WHERE id = $5
+        `;
+        values = [nombre, telefono, email, avatar, userId];
+      }
     } else {
       return res.status(400).json({ error: 'Rol de usuario no válido' });
     }
 
+    // Ejecutamos la consulta SQL
     await pool.query(query, values);
     res.json({ message: 'Perfil actualizado correctamente' });
   } catch (error) {
@@ -529,6 +565,9 @@ app.put('/user/update', authenticateToken, async (req, res) => {
     res.status(500).json({ error: 'Error al actualizar perfil de usuario' });
   }
 });
+
+
+
 
 // Ruta para obtener los avatars
 app.get('/avatars', async (req, res) => {

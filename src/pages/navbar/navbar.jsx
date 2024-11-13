@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Navbar, Nav, Button, Dropdown } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom'; 
 import './navbar.css';
@@ -7,10 +7,17 @@ import { AuthContext } from '../authContext';
 const NavigationBar = () => {
   const navigate = useNavigate();
   const { role, avatar, clearAuthData } = useContext(AuthContext);
+  const [displayedAvatar, setDisplayedAvatar] = useState(null);
+
+  // Efecto para actualizar el avatar en la vista cuando cambia en el contexto
+  useEffect(() => {
+    console.log("Avatar en contexto ha cambiado:", avatar);
+    setDisplayedAvatar(avatar);
+  }, [avatar]);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
-    clearAuthData(); // Restablece los datos de autenticación
+    clearAuthData();
     navigate('/login');
   };
 
@@ -114,10 +121,10 @@ const NavigationBar = () => {
         {/* Botones adicionales */}
         <Nav className="ml-auto">
           <Button variant="outline-light" href="https://playgabu.com/es/old-home" target="_blank">Get Early Access</Button>
-          {avatar ? (
+          {displayedAvatar ? (
             <Dropdown>
               <Dropdown.Toggle variant="link" id="dropdown-avatar">
-                <img src={avatar} alt="Avatar" className="nav-avatar" />
+                <img src={displayedAvatar} alt="Avatar" className="nav-avatar" />
               </Dropdown.Toggle>
               <Dropdown.Menu align="end" className='dropdown-menu-right'>
                 <Dropdown.ItemText>¡Hola!</Dropdown.ItemText>

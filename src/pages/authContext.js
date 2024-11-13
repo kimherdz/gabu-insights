@@ -1,4 +1,3 @@
-// authContext.js
 import React, { createContext, useState, useEffect } from 'react';
 
 export const AuthContext = createContext();
@@ -22,6 +21,7 @@ export const AuthProvider = ({ children }) => {
     setRole(newRole);
     setUserId(newUserId);
     setAvatar(newAvatar);
+    localStorage.setItem('avatar', newAvatar);
   };
 
   const clearAuthData = () => {

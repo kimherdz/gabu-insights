@@ -9,10 +9,15 @@
   }
   
   .responsive-img {
-    width: 100%;
-    max-width: 200px;
+    margin: 3rem;
+    margin-top: 3rem;
+    width: 20rem;
+    max-width: 800px;
     height: auto;
     cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    display: flex;
   }
   
   .responsive-img:hover {
