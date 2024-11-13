@@ -169,7 +169,7 @@ app.post('/login', async (req, res) => {
       const passwordMatch = await bcrypt.compare(password, parent.contrasena); // Verificar la contraseña
 
       if (passwordMatch) {
-        const token = jwt.sign({ id: parent.id, role: 'parent' }, SECRET_KEY, { expiresIn: '1h' });
+        const token = jwt.sign({ id: parent.id, role: 'parent', avatar: parent.avatar }, SECRET_KEY, { expiresIn: '1h' });
         return res.status(200).json({ token, role: 'parent' });
       } else {
         return res.status(401).json({ message: 'Contraseña incorrecta' });
@@ -191,7 +191,7 @@ app.post('/login', async (req, res) => {
       const passwordMatch = await bcrypt.compare(password, coach.contrasena); // Verificar la contraseña
 
       if (passwordMatch) {
-        const token = jwt.sign({ id: coach.id, role: 'coach' }, SECRET_KEY, { expiresIn: '1h' });
+        const token = jwt.sign({ id: coach.id, role: 'coach', avatar: coach.avatar }, SECRET_KEY, { expiresIn: '1h' });
         return res.status(200).json({ token, role: 'coach' });
       } else {
         return res.status(401).json({ message: 'Contraseña incorrecta' });
@@ -208,7 +208,7 @@ app.post('/login', async (req, res) => {
       // Verificar la contraseña
       const passwordMatch = await bcrypt.compare(password, admin.contrasena);
       if (passwordMatch) {
-        const token = jwt.sign({ id: admin.id, role: 'admin' }, SECRET_KEY, { expiresIn: '1h' });
+        const token = jwt.sign({ id: admin.id, role: 'admin', avatar: admin.avatar }, SECRET_KEY, { expiresIn: '1h' });
         return res.status(200).json({ token, role: 'admin' });
       } else {
         return res.status(401).json({ message: 'Contraseña incorrecta' });
@@ -561,6 +561,48 @@ app.get('/avatars', async (req, res) => {
     res.status(500).json({ error: 'Error al obtener avatares' });
   }
 });
+
+// Ruta para obtener todas las asistencias
+app.get('/admin/attendances', authenticateToken, async (req, res) => {
+  try {
+    const query = 'SELECT * FROM attendances';
+    const result = await pool.query(query);
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Error al obtener asistencias:', error);
+    res.status(500).json({ message: 'Error al obtener los registros de asistencias' });
+  }
+});
+
+// Ruta para actualizar una asistencia específica
+app.put('/admin/attendance/update', authenticateToken, async (req, res) => {
+  const { id, data } = req.body;
+  const { fecha, act_eleccion_juego, act_perder, negociar, convivencia, comentarios, nino_id, coach_id } = data;
+
+  try {
+    const query = `
+      UPDATE attendances SET
+        fecha = $1,
+        act_eleccion_juego = $2,
+        act_perder = $3,
+        negociar = $4,
+        convivencia = $5,
+        comentarios = $6,
+        nino_id = $7,
+        coach_id = $8
+      WHERE id = $9
+      RETURNING *;
+    `;
+    const values = [fecha, act_eleccion_juego, act_perder, negociar, convivencia, comentarios, nino_id, coach_id, id];
+    const result = await pool.query(query, values);
+
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error('Error al actualizar asistencia:', error);
+    res.status(500).json({ message: 'Error al actualizar el registro de asistencia' });
+  }
+});
+
 
 // Inicia el servidor
 app.listen(PORT, '0.0.0.0', () => {

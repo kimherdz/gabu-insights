@@ -1,26 +1,37 @@
+// authContext.js
 import React, { createContext, useState, useEffect } from 'react';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [role, setRole] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const [avatar, setAvatar] = useState(null);
 
   useEffect(() => {
-    // Obtener el rol desde el token si está guardado
     const token = localStorage.getItem('token');
     if (token) {
-      // Decodificar o obtener el rol desde el token
-      const userRole = JSON.parse(atob(token.split('.')[1])).role; 
-      setRole(userRole);
+      const decodedToken = JSON.parse(atob(token.split('.')[1]));
+      setRole(decodedToken.role);
+      setUserId(decodedToken.id);
+      setAvatar(decodedToken.avatar);
     }
   }, []);
 
-  const updateRole = (newRole) => {
+  const updateAuthData = (newRole, newUserId, newAvatar) => {
     setRole(newRole);
+    setUserId(newUserId);
+    setAvatar(newAvatar);
+  };
+
+  const clearAuthData = () => {
+    setRole(null);
+    setUserId(null);
+    setAvatar(null);
   };
 
   return (
-    <AuthContext.Provider value={{ role, updateRole }}>
+    <AuthContext.Provider value={{ role, userId, avatar, updateAuthData, clearAuthData }}>
       {children}
     </AuthContext.Provider>
   );
