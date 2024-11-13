@@ -17,9 +17,9 @@ const EditAccount = () => {
   const [avatars, setAvatars] = useState([]);
   const [selectedAvatar, setSelectedAvatar] = useState(avatar || '');
   const [showAvatarModal, setShowAvatarModal] = useState(false);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false); // Estado para el modal de confirmación
 
   useEffect(() => {
-    // Cargar datos del usuario y avatares
     const fetchUserData = async () => {
       try {
         const token = localStorage.getItem('token');
@@ -57,41 +57,39 @@ const EditAccount = () => {
     try {
       const token = localStorage.getItem('token');
       const updatedData = { ...userData, avatar: selectedAvatar };
-  
+
       if (userData.nuevaContrasena) {
         updatedData.contrasena = userData.nuevaContrasena;
       }
-  
+
       const response = await axios.put(
         'http://localhost:3001/user/update',
         updatedData,
         { headers: { Authorization: `Bearer ${token}` } }
       );
-  
+
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
         const decodedToken = JSON.parse(atob(response.data.token.split('.')[1]));
-        // Actualiza AuthContext con el nuevo avatar
         updateAuthData(decodedToken.role, decodedToken.id, selectedAvatar);
       }
-  
-      alert('Perfil actualizado correctamente');
-      window.location.reload();
+
+      // Muestra el modal de confirmación al completar la actualización
+      setShowConfirmationModal(true);
+      
     } catch (error) {
       console.error('Error al actualizar el perfil:', error);
       alert('Hubo un error al actualizar el perfil');
     }
   };
-  
-  
-  
+
+  const handleCloseConfirmationModal = () => setShowConfirmationModal(false); // Función para cerrar el modal de confirmación
 
   return (
     <div>
       <div className="signup-container">
         <h2>Editar Perfil</h2>
         <form className="signup-form">
-
           <div className="avatar-selection">
             <div onClick={() => setShowAvatarModal(true)}>
               <img
@@ -183,6 +181,23 @@ const EditAccount = () => {
             }}
           >
             Guardar
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* Modal de confirmación de actualización exitosa */}
+      <Modal 
+        show={showConfirmationModal} 
+        onHide={handleCloseConfirmationModal}
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Actualización Exitosa</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>¡Perfil actualizado correctamente!</Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={handleCloseConfirmationModal}>
+            Cerrar
           </Button>
         </Modal.Footer>
       </Modal>
